@@ -1,11 +1,11 @@
 language: cpp
 
 compiler:
- - gcc
  - clang
 
 script:
-  make build
+  make linux-debug64
+  make linux-release64
 
 branches:
   only:
