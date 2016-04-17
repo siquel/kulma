@@ -1,0 +1,6 @@
+.build
+.git
+.suo
+*.opendb
+*.user
+*.sdf
