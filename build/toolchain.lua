@@ -16,6 +16,7 @@ function toolchain(build_dir, lib_dir)
 	}
 
 	if (_ACTION == nil) then return end
+    
 
 	if _ACTION == "clean" then
 		os.rmdir(BUILD_DIR)
@@ -28,7 +29,9 @@ function toolchain(build_dir, lib_dir)
 		end
 
 		if "linux-gcc" == _OPTIONS["compiler"] then
+            location(build_dir .. "linux")
 		elseif "linux-clang" == _OPTIONS["compiler"] then
+            location(build_dir .. "linux")
 			premake.gcc.cc = "clang"
 			premake.gcc.cxx = "clang++"
 		end

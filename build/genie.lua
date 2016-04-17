@@ -20,3 +20,7 @@ solution "kulma"
 dofile("toolchain.lua")
 
 toolchain(KULMA_BUILD_DIR, KULMA_THIRDPARTY_DIR)
+dofile("kulma.lua")
+
+group "engine"
+kulma_project("kulma", "StaticLib")
