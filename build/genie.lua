@@ -1,4 +1,4 @@
-KULMA_DIR = path.getabsolute(..) .. "/"
+KULMA_DIR = path.getabsolute("..") .. "/"
 local KULMA_BUILD_DIR = KULMA_DIR .. ".build/"
 local KULMA_THIRDPARTY_DIR = KULMA_DIR .. "3rdparty/"
 
@@ -9,7 +9,7 @@ solution "kulma"
 	}
 
 	platforms {
-		"x86",
+		"x32",
 		"x64"
 	}
 

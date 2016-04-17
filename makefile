@@ -8,6 +8,6 @@ endif
 GENIE=tools/bin/$(OS)/genie
 
 linux-build:
-	$(GENIE) --file=build/genie.lua gmake
+	$(GENIE) --file=build/genie.lua --compiler=linux-clang gmake
 linux-debug64: linux-build
 	make 

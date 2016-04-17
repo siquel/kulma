@@ -44,21 +44,21 @@ function toolchain(build_dir, lib_dir)
 		"FatalWarnings"
 	}
 
-	configuration { "debug", "x86" }
+	configuration { "debug", "x32" }
 		targetsuffix "-debug-86"
 	configuration { "debug", "x64" }
 		targetsuffix "-debug-64"
 
-	configuration { "release", "x86" }
+	configuration { "release", "x32" }
 		targetsuffix "-release-86"
 	configuration { "release", "x64" }
 		targetsuffix "-release-64"
 
-	configuration { "x86", "linux-*", "debug"}
+	configuration { "x32", "linux-*", "debug"}
 		targetdir (build_dir .. "x86/debug")
 		objdir (build_dir .. "obj/x86/debug")
 
-	configuration { "x86", "linux-*", "release"}
+	configuration { "x32", "linux-*", "release"}
 		targetdir (build_dir .. "x86/release")
 		objdir (build_dir .. "obj/x86/release")
 
