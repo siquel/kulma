@@ -1,0 +1,15 @@
+language: cpp
+
+compiler:
+ - gcc
+ - clang
+
+script:
+  make build
+
+branches:
+  only:
+    - master
+
+notifications:
+  email: false
