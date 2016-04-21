@@ -6,6 +6,7 @@ compiler:
 script:
  - make linux-debug64
  - make linux-release64
+ - .build/x64/release/unit-tests-release64
 
 branches:
   only:
