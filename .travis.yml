@@ -4,9 +4,8 @@ compiler:
  - clang
 
 script:
- - make linux-debug64
- - make linux-release64
- - .build/x64/release/unit-tests-release-64
+ - make linux-debug64 && .build/x64/debug/unit_test-debug-64
+ - make linux-release64 && .build/x64/release/unit_test-release-64
 
 branches:
   only:
