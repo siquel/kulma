@@ -12,6 +12,12 @@ function kulma_project(_name, _kind)
                 "GL"
             }
 
+        flags {
+            "NoRTTI",
+            "NoExceptions",
+            "FatalWarnings"
+        }
+
         files {
             KULMA_DIR .. "src/**.h",
             KULMA_DIR .. "src/**.cpp"
@@ -34,6 +40,11 @@ function kulma_example_project(_name)
         path.join(KULMA_DIR, "examples", _name, "**.h")
     }
 
+    flags {
+        "FatalWarnings",
+        "NoRTTI",
+        "NoExceptions",
+    }
 
     links {
         "kulma"
