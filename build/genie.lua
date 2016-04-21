@@ -1,6 +1,6 @@
 KULMA_DIR = path.getabsolute("..") .. "/"
-local KULMA_BUILD_DIR = KULMA_DIR .. ".build/"
-local KULMA_THIRDPARTY_DIR = KULMA_DIR .. "3rdparty/"
+KULMA_BUILD_DIR = KULMA_DIR .. ".build/"
+KULMA_THIRDPARTY_DIR = KULMA_DIR .. "3rdparty/"
 
 solution "kulma"
 	configurations {
@@ -24,3 +24,6 @@ dofile("kulma.lua")
 
 group "engine"
 kulma_project("kulma", "StaticLib")
+
+group "examples"
+kulma_example_project("00-helloworld")
