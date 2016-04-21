@@ -41,10 +41,8 @@ function toolchain(build_dir, lib_dir)
 		"StaticRuntime",
 		"Unicode",
 		"NoPCH",
-		"NoRTTI",
-		"NoExceptions",
 		"Symbols",
-		"FatalWarnings"
+        "ExtraWarnings"
 	}
 
 	configuration { "debug", "x32" }
