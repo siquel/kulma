@@ -1,10 +1,19 @@
 #pragma once
 
 #include <stdint.h>
+#include "platform.h"
 
 namespace kulma 
 {
-    void debugBreak();
+    inline void debugBreak() 
+    {
+#if KULMA_COMPILER_MSVC
+            __debugbreak();
+#else
+            // http://stackoverflow.com/questions/4326414/set-breakpoint-in-c-or-c-code-programmatically-for-gdb-on-linux
+            __asm__("int $3");
+#endif
+    }
     void trace(const char* p_path, uint16_t p_line, const char* p_format, ...);
 }
 

@@ -9,11 +9,6 @@
 namespace kulma
 {
 
-    void debugBreak()
-    {
-
-    }
-
     void printVargs(const char* p_path, uint16_t p_line, const char* p_format, va_list p_args)
     {
         char temp[2048];

@@ -11,5 +11,6 @@ int main(int argc, char* argv[]) {
         KULMA_COMPILER_NAME
     );
     KULMA_TRACE("top kek %d gg %s", 555, "asd");
+    KULMA_WARN(1 == 0, "1 != 0");
     return 0; 
 }
