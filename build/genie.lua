@@ -38,6 +38,7 @@ group "unit_test"
         "kulma"
     }
     includedirs {
+        path.join(KULMA_DIR, "include"),
         KULMA_THIRDPARTY_DIR
     }
     
