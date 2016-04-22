@@ -99,3 +99,10 @@
                                     KULMA_TO_STRING(__GNUC_MINOR__) "." \
                                     KULMA_TO_STRING(__GNUC_PATCHLEVEL__) 
 #endif
+
+
+// annoying stuff
+#if KULMA_COMPILER_MSVC
+#pragma warning(disable : 4514)     // unreferenced inline function has been removed
+#endif
+
