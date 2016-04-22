@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stdlib.h> // size_t
 #include "platform.h"
 
 
