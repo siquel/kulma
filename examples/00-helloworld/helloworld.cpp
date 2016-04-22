@@ -3,8 +3,7 @@
 #include "kulma/platform.h"
 
 int main(int argc, char* argv[]) {
-    (void)argc;
-    (void)argv;
+    KULMA_UNUSED(argc, argv);
     printf("Hello world! Running on %s, target arch %s, compiled with %s\n", 
         KULMA_PLATFORM_NAME,
         KULMA_ARCH_NAME,
