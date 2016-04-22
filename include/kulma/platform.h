@@ -89,7 +89,13 @@
 #       define KULMA_COMPILER_NAME  "MSVC"
 #   endif
 #elif KULMA_COMPILER_CLANG
-#   define KULMA_COMPILER_NAME      "Clang" // TODO FIXME: version
+#   define KULMA_COMPILER_NAME      "Clang " \
+                                    KULMA_TO_STRING(__clang_major__) "." \
+                                    KULMA_TO_STRING(__clang_minor__) "." \
+                                    KULMA_TO_STRING(__clang_patchlevel__)
 #elif KULMA_COMPILER_GCC
-#   define KULMA_COMPILER_NAME      "GCC" // TODO FIXME: version
+#   define KULMA_COMPILER_NAME      "GCC " \
+                                    KULMA_TO_STRING(__GNUC__) "." \
+                                    KULMA_TO_STRING(__GNUC_MINOR__) "." \
+                                    KULMA_TO_STRING(__GNUC_PATCHLEVEL__) 
 #endif

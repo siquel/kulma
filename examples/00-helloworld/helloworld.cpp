@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "../src/platform.h"
+#include "kulma/macros.h"
+#include "kulma/platform.h"
 
 int main(int argc, char* argv[]) {
     (void)argc;
