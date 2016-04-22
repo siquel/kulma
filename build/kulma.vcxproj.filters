@@ -20,7 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\platform.h">
+    <ClInclude Include="..\include\kulma\platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\kulma\macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

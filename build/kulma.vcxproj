@@ -148,7 +148,8 @@
     <ClCompile Include="..\src\hello.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\platform.h" />
+    <ClInclude Include="..\include\kulma\macros.h" />
+    <ClInclude Include="..\include\kulma\platform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
