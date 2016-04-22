@@ -40,3 +40,9 @@
 #else
 #   define KULMA_UNUSED(...) KULMA_MACRO_DISPATCHER(KULMA_UNUSED_, __VA_ARGS__)(__VA_ARGS__)
 #endif
+
+#if KULMA_COMPILER_MSVC
+#   define KULMA_NO_VTABLE __declspec(novtable)
+#else
+#   define KULMA_NO_VTABLE
+#endif
