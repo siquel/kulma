@@ -147,6 +147,9 @@
   <ItemGroup>
     <ClCompile Include="..\src\hello.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\platform.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
