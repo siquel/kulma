@@ -45,6 +45,9 @@ function toolchain(build_dir, lib_dir)
         "ExtraWarnings"
 	}
 
+	configuration { "release"}
+		defines { "NDEBUG"}
+
 	configuration { "debug", "x32" }
 		targetsuffix "-debug-86"
 	configuration { "debug", "x64" }
