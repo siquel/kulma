@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <stdint.h>
 #include "platform.h"
 
@@ -15,12 +16,13 @@ namespace kulma
 #endif
     }
     void trace(const char* p_path, uint16_t p_line, const char* p_format, ...);
+    void fatal(const char* p_path, uint16_t p_line, const char* p_format, ...);
 }
 
-#if defined(NDEBUG)
+#ifdef NDEBUG
 #   define _KULMA_TRACE(_format, ...) do { } while (0)
 #   define _KULMA_WARN(_condition, _format, ...) do { } while (0)
-#   define _KULMA_ASSERT(_condition, _format, ...) do { } while (0)
+#   define _KULMA_ASSERT(_condition, _format, ...) do { KULMA_UNUSED(_condition); } while (0)
 #else
 #   define _KULMA_TRACE(_format, ...) do {                                                                          \
                                         kulma::trace(__FILE__, uint16_t(__LINE__), _format "\n", ##__VA_ARGS__);    \
@@ -33,8 +35,13 @@ namespace kulma
                                                     }                                                               \
                                                  } while (0)
 
-#   define _KULMA_ASSERT(_condition, _format, ...) do {                                                             \
-                                                   } while(0)
+#   define _KULMA_ASSERT(_condition, _msg, ...) do {                                                                \
+                                                if (!(_condition)) {                                                \
+                                 KULMA_TRACE("\nAssertion failed: %s with message " _msg "\n", #_condition, ##__VA_ARGS__);  \
+                                                    kulma::fatal(__FILE__, uint16_t(__LINE__),                      \
+                                            "\nAssertion failed: %s\n\t " _msg "\n", #_condition, ##__VA_ARGS__);   \
+                                                    }                                                               \
+                                                } while(0)
 #endif
 
 

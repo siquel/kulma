@@ -33,4 +33,10 @@ namespace kulma
         va_end(args);
     }
 
+    void fatal(const char* p_path, uint16_t p_line, const char* p_format, ...)
+    {
+        KULMA_UNUSED(p_path, p_line, p_format);
+        debugBreak();
+    }
+
 }
