@@ -2,6 +2,13 @@
 
 #include "platform.h"
 
+
+namespace kulma {
+    template<typename T, size_t N> char(&COUNTOF_REQUIRES_ARRAY_ARGUMENT(const T(&)[N]))[N];
+}
+
+#define KULMA_COUNTOF(_x) sizeof(kulma::COUNTOF_REQUIRES_ARRAY_ARGUMENT(_x) )
+
 #define KULMA_TO_STRING_(_x) #_x
 #define KULMA_TO_STRING(_x) KULMA_TO_STRING_(_x)
 

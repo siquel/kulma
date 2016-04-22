@@ -19,4 +19,15 @@ TEST_CASE("VA args", "[macro]") {
         REQUIRE(KULMA_CONCAT(KULMA_VA_ARGS_, COUNT)(1, 2) == 2);
         REQUIRE(KULMA_CONCAT(KULMA_TO, _STRING)(ff) == "ff");
     }
+
+    SECTION("Count of") {
+        static const int s_ints[] = {
+            1, 2, 3, 4, 5, 6, 7
+        };
+        static const char* s_strings[] = {
+            "top", "kek", "kulma"
+        };
+        REQUIRE(KULMA_COUNTOF(s_ints) == 7);
+        REQUIRE(KULMA_COUNTOF(s_strings) == 3);
+    }
 }
