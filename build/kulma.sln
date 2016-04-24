@@ -1,13 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kulma", "kulma.vcxproj", "{B0E2CF76-B270-4033-A409-1DD190268785}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{8B0CC935-C64D-4392-9D63-B474BEEA2221}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "00-helloworld", "..\examples\00-helloworld\00-helloworld.vcxproj", "{B998C459-C961-437E-AB35-E95101FC5A36}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B0E2CF76-B270-4033-A409-1DD190268785} = {B0E2CF76-B270-4033-A409-1DD190268785}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
