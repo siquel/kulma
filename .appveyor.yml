@@ -8,6 +8,10 @@ platform:
 configuration:
   - Debug
   - Release
+  
+branches:
+  only:
+    - master
 
 build:
   project: build/kulma.sln

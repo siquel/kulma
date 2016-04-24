@@ -41,11 +41,12 @@ function toolchain(build_dir, lib_dir)
 		"StaticRuntime",
 		"Unicode",
 		"NoPCH",
-		"NoRTTI",
-		"NoExceptions",
 		"Symbols",
-		"FatalWarnings"
+        "ExtraWarnings"
 	}
+
+	configuration { "release"}
+		defines { "NDEBUG"}
 
 	configuration { "debug", "x32" }
 		targetsuffix "-debug-86"

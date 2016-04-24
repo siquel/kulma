@@ -27,3 +27,18 @@ kulma_project("kulma", "StaticLib")
 
 group "examples"
 kulma_example_project("00-helloworld")
+
+group "unit_test"
+    project "unit_test"
+    kind("ConsoleApp")
+    files {
+        path.join(KULMA_DIR, "tests", "**.cpp")
+    }
+    links {
+        "kulma"
+    }
+    includedirs {
+        path.join(KULMA_DIR, "include"),
+        KULMA_THIRDPARTY_DIR
+    }
+    
