@@ -2,6 +2,7 @@
 #include "kulma/macros.h"
 #include "kulma/platform.h"
 #include "kulma/debug.h"
+#include "kulma/platform/window.h"
 
 int main(int argc, char* argv[]) {
     KULMA_UNUSED(argc, argv);
@@ -10,8 +11,10 @@ int main(int argc, char* argv[]) {
         KULMA_ARCH_NAME,
         KULMA_COMPILER_NAME
     );
-    KULMA_TRACE("top kek %d gg %s", 555, "asd");
-    //KULMA_WARN(1 == 0, "1 != 0");
-    KULMA_ASSERT(0 == 1, "0 != 1");
+    using namespace kulma;
+    Window* window = window::create();
+    
+    window::destroy();
+
     return 0; 
 }
