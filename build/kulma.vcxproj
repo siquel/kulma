@@ -158,6 +158,7 @@
     <ClInclude Include="..\include\kulma\platform\platform.h" />
     <ClInclude Include="..\include\kulma\platform\window.h" />
     <ClInclude Include="..\include\kulma\string.h" />
+    <ClInclude Include="..\src\platform\semaphore.h" />
     <ClInclude Include="..\src\thread\thread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

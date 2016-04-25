@@ -39,6 +39,8 @@ namespace kulma
 #if KULMA_PLATFORM_WINDOWS
             m_handle = CreateThread(NULL, p_stack_size, thread_proc, this, 0, NULL);
             KULMA_ASSERT(m_handle != INVALID_HANDLE_VALUE, "CreateThread: GetLastError = %d", GetLastError());
+#else
+#   error "Not implemented thread for platform"
 #endif
             m_is_running = true;
         }

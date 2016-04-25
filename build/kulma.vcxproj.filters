@@ -62,5 +62,8 @@
     <ClInclude Include="..\include\kulma\platform\engine.h">
       <Filter>Header Files\platform</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\platform\semaphore.h">
+      <Filter>Source Files\thread</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
