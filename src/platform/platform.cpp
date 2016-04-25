@@ -2,6 +2,7 @@
 #include "kulma/debug.h"
 #include <new.h>
 #include <stdio.h>
+#include "kulma/platform/window.h"
 
 namespace kulma
 {
@@ -10,7 +11,12 @@ namespace kulma
     void Engine::stop() { s_exit = true; }
     void Engine::run()
     {
+        Window* wnd = window::create();
+        wnd->show();
         while (!s_exit) {}
+
+        wnd->close();
+        window::destroy();
     }
 
 }

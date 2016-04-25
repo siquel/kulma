@@ -120,7 +120,11 @@ namespace kulma
     struct WindowWin : public Window
     {
         WindowWin()
-            : m_hwnd(nullptr)
+            : m_hwnd(nullptr),
+              m_width(KULMA_DEFAULT_WINDOW_WIDTH),
+              m_height(KULMA_DEFAULT_WINDOW_HEIGHT),
+              m_x(0),
+              m_y(0)
         {
             KULMA_ASSERT(s_winPlatform->m_hwnd != nullptr, "WindowsPlatform hasn't been initialized yet");
             m_hwnd = s_winPlatform->m_hwnd;
@@ -136,7 +140,21 @@ namespace kulma
             ShowWindow(m_hwnd, SW_SHOW);
         }
 
+        void close() override
+        {
+            DestroyWindow(m_hwnd);
+        }
+
+        void* nwh() override
+        {
+            return (void*)(uintptr_t)m_hwnd;
+        }
+
         HWND m_hwnd;
+        uint16_t m_width;
+        uint16_t m_height;
+        uint16_t m_x;
+        uint16_t m_y;
     };
 
 

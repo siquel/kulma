@@ -7,6 +7,9 @@ namespace kulma
     {
         virtual ~Window() = 0;
         virtual void show() = 0;
+        virtual void close() = 0;
+
+        virtual void* nwh() = 0;
     };
     inline Window::~Window() {}
 }
