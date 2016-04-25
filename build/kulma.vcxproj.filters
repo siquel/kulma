@@ -27,10 +27,10 @@
     <ClCompile Include="..\src\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\platform\window_win.cpp">
+    <ClCompile Include="..\src\platform\platform.cpp">
       <Filter>Source Files\platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\platform\platform.cpp">
+    <ClCompile Include="..\src\platform\platform_windows.cpp">
       <Filter>Source Files\platform</Filter>
     </ClCompile>
   </ItemGroup>

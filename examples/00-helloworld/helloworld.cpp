@@ -3,6 +3,7 @@
 #include "kulma/platform.h"
 #include "kulma/debug.h"
 #include "kulma/platform/window.h"
+#include "kulma/platform/platform.h"
 
 int main(int argc, char* argv[]) {
     KULMA_UNUSED(argc, argv);
@@ -12,9 +13,8 @@ int main(int argc, char* argv[]) {
         KULMA_COMPILER_NAME
     );
     using namespace kulma;
-    Window* window = window::create();
-    
-    window::destroy();
+    kulma::run();
+    //Window* wnd = kulma::window::create();
 
     return 0; 
 }
