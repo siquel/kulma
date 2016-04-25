@@ -145,10 +145,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\allocator.cpp" />
     <ClCompile Include="..\src\debug.cpp" />
     <ClCompile Include="..\src\hello.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\kulma\allocator.h" />
     <ClInclude Include="..\include\kulma\debug.h" />
     <ClInclude Include="..\include\kulma\macros.h" />
     <ClInclude Include="..\include\kulma\platform.h" />
