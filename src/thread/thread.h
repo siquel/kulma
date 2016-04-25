@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include <kulma/debug.h>
+#include "semaphore.h"
 
 namespace kulma
 {
@@ -26,14 +27,25 @@ namespace kulma
               m_user_data(nullptr), 
               m_is_running(false),
 #if KULMA_PLATFORM_WINDOWS
-              m_handle(INVALID_HANDLE_VALUE)
+              m_handle(INVALID_HANDLE_VALUE),
+              m_thread_id(UINT32_MAX)
 #endif
         {
 
         }
 
+        ~Thread()
+        {
+            if (m_is_running)
+            {
+                stop();
+            }
+        }
+
         void start(ThreadFunc p_func, void* p_user_data = nullptr, uint32_t p_stack_size = 0u)
         {
+            KULMA_ASSERT(!m_is_running, "Thread is already running");
+
             m_func = p_func;
             m_user_data = p_user_data;
 #if KULMA_PLATFORM_WINDOWS
@@ -43,6 +55,8 @@ namespace kulma
 #   error "Not implemented thread for platform"
 #endif
             m_is_running = true;
+            // try to enter the semaphore gate
+            m_semaphore.wait();
         }
 
 #if KULMA_PLATFORM_WINDOWS
@@ -67,13 +81,21 @@ namespace kulma
       
         int32_t run()
         {
+#if KULMA_PLATFORM_WINDOWS
+            m_thread_id = ::GetCurrentThreadId();
+            KULMA_TRACE("Starting thread %d", m_thread_id);
+#endif
+            // the thread got ownership of sem
+            m_semaphore.post();
             return m_func(m_user_data);
         }
 
         ThreadFunc m_func;
         void* m_user_data;
         bool m_is_running;
+        Semaphore m_semaphore;
 #if KULMA_PLATFORM_WINDOWS
+        DWORD m_thread_id;
         HANDLE m_handle;
 #endif
     };
