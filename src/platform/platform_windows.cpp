@@ -9,6 +9,8 @@
 #include "kulma/platform/platform.h"
 #include "kulma/platform/window.h"
 #include <new>
+#include "../thread/thread.h"
+
 
 // TODO
 #define KULMA_DEFAULT_WINDOW_WIDTH 1280
@@ -17,6 +19,16 @@
 namespace kulma
 {
     static bool s_exit = false;
+
+    int8_t thread_proc(void* p_user_data)
+    {
+        KULMA_UNUSED(p_user_data);
+        kulma::run();
+        s_exit = true;
+        return EXIT_SUCCESS;
+    }
+
+    
 
     struct WindowsPlatform : public Platform
     {
@@ -60,6 +72,9 @@ namespace kulma
                 );
             KULMA_ASSERT(m_hwnd != nullptr, "CreateWindowA: GetLastError = %d", GetLastError());
 
+            Thread thread;
+            thread.start(thread_proc, nullptr);
+
             MSG msg;
             msg.message = WM_NULL;
 
@@ -71,6 +86,9 @@ namespace kulma
                     DispatchMessage(&msg);
                 }
             }
+
+            KULMA_TRACE("Got away from loop");
+            thread.stop();
 
             return EXIT_SUCCESS;
         }
@@ -85,6 +103,7 @@ namespace kulma
             case WM_CLOSE:
             {
                 s_exit = true;
+                kulma::engine()->stop();
                 return 0;
             }
             }

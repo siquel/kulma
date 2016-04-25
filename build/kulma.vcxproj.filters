@@ -19,6 +19,9 @@
     <Filter Include="Header Files\platform">
       <UniqueIdentifier>{d6ab04a8-6ae0-4667-b605-0ecdb5bbf800}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\thread">
+      <UniqueIdentifier>{0e6279ce-efd5-4f87-8333-1cdeff6195fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\hello.cpp">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="..\include\kulma\platform\platform.h">
       <Filter>Header Files\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thread\thread.h">
+      <Filter>Source Files\thread</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

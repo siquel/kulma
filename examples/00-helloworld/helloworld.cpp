@@ -13,8 +13,9 @@ int main(int argc, char* argv[]) {
         KULMA_COMPILER_NAME
     );
     using namespace kulma;
-    kulma::run();
+    Platform* platform = kulma::platform::create();
+    int32_t exitStatus = platform->run();
     //Window* wnd = kulma::window::create();
 
-    return 0; 
+    return exitStatus; 
 }
