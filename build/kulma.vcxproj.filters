@@ -30,10 +30,10 @@
     <ClCompile Include="..\src\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\platform\platform.cpp">
+    <ClCompile Include="..\src\platform\platform_windows.cpp">
       <Filter>Source Files\platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\platform\platform_windows.cpp">
+    <ClCompile Include="..\src\platform\engine.cpp">
       <Filter>Source Files\platform</Filter>
     </ClCompile>
   </ItemGroup>
@@ -58,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="..\src\thread\thread.h">
       <Filter>Source Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\kulma\platform\engine.h">
+      <Filter>Header Files\platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

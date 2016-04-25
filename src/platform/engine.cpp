@@ -3,6 +3,7 @@
 #include <new.h>
 #include <stdio.h>
 #include "kulma/platform/window.h"
+#include "kulma/platform/engine.h"
 
 namespace kulma
 {
@@ -13,6 +14,7 @@ namespace kulma
     {
         Window* wnd = window::create();
         wnd->show();
+
         while (!s_exit) {}
 
         wnd->close();
@@ -26,6 +28,7 @@ namespace kulma
 {
     static char s_memory[sizeof(Engine)];
     static Engine* s_engine = nullptr;
+
     void run()
     {
         s_engine = new(s_memory)Engine;

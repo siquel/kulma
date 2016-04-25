@@ -7,6 +7,7 @@
 #include "kulma/debug.h"
 #include <windows.h>
 #include "kulma/platform/platform.h"
+#include "kulma/platform/engine.h"
 #include "kulma/platform/window.h"
 #include <new>
 #include "../thread/thread.h"
@@ -42,7 +43,7 @@ namespace kulma
         {
         }
 
-        int run() override
+        int entryPoint() override
         {
             HINSTANCE instance = static_cast<HINSTANCE>(GetModuleHandle(NULL));
             WNDCLASSEX wnd;

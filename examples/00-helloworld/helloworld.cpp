@@ -14,7 +14,8 @@ int main(int argc, char* argv[]) {
     );
     using namespace kulma;
     Platform* platform = kulma::platform::create();
-    int32_t exitStatus = platform->run();
+    int32_t exitStatus = platform->entryPoint();
+    platform::destroy();
 
     return exitStatus; 
 }
