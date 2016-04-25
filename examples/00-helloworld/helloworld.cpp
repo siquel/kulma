@@ -45,6 +45,8 @@ int main(int argc, char* argv[]) {
         printf("%d", numbers[i]);
     }
 
+    linearAllocator.clear();
+
     free(address);
 
     // END OF EBIN TEST

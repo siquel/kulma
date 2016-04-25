@@ -26,7 +26,7 @@ namespace kulma
         ptrdiff_t adjustment = get_align_adjustment(m_current_pos, p_alignment);
 
         if (m_memory_used + p_size + adjustment > m_size)
-            return nullptr;
+            return NULL;
 
         uintptr_t aligned_address = (uintptr_t)m_current_pos + adjustment;
 

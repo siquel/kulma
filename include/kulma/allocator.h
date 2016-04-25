@@ -32,14 +32,14 @@ namespace kulma
         LinearAllocator(size_t p_size, void* p_start_pos);
         ~LinearAllocator();
 
-        LinearAllocator(const LinearAllocator&) = delete;
-        LinearAllocator& operator=(const LinearAllocator&) = delete;
-
         void* allocate(size_t p_size, size_t p_alignment = 4);
         void deallocate(size_t p_size);
         void clear();
 
     private:
+        LinearAllocator(const LinearAllocator&);
+        LinearAllocator& operator=(const LinearAllocator&);
+
         void* m_current_pos;
         void* m_start_pos;
         size_t m_size;
