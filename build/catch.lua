@@ -1,11 +1,11 @@
 project "unit_test"
-    kind("ConsoleApp")
+    kind "ConsoleApp"
 
-    removeflags {
-        "NoExceptions",
-        "NoRTTI",
+    removeflags { 
+        "NoRTTI", 
+        "NoExceptions"
     }
-    
+
     files {
         path.join(KULMA_DIR, "tests", "**.cpp")
     }
@@ -18,4 +18,3 @@ project "unit_test"
         path.join(KULMA_DIR, "include"),
         KULMA_THIRDPARTY_DIR
     }
-    
