@@ -5,9 +5,14 @@ platform:
   - x86
   - x64
 
+environment:
+  matrix:
+  - TOOLSET: vs2013
+  - TOOLSET: vs2015
+
 configuration:
-  - Debug
-  - Release
+  - debug
+  - release
   
 branches:
   only:
@@ -15,6 +20,8 @@ branches:
 
 install:
   - git clone https://github.com/siquel/kaluketju
+  - kaluketju\tools\bin\genie %TOOLSET%
+  - vshax.bat %TOOLSET%
 
 build:
-  project: build/kulma.sln
+  project: .build/projects/$(TOOLSET)/kulma.sln
