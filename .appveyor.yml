@@ -13,5 +13,8 @@ branches:
   only:
     - master
 
+install:
+  - git clone https://github.com/siquel/kaluketju
+
 build:
   project: build/kulma.sln
