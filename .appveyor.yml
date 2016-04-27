@@ -20,7 +20,7 @@ branches:
 
 install:
   - git clone https://github.com/siquel/kaluketju
-  - kaluketju\tools\bin\genie %TOOLSET%
+  - kaluketju\tools\bin\windows\genie %TOOLSET%
   - vshax.bat %TOOLSET%
 
 build:
