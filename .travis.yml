@@ -2,10 +2,11 @@ language: cpp
 
 compiler:
  - clang
+ - gcc
 
 script:
- - make linux-debug64 && .build/x64/debug/unit_test-debug-64
- - make linux-release64 && .build/x64/release/unit_test-release-64
+    - if [ "$CXX" == "clang++"]; then make linux-clang && .build/linux64_clang/bin/unit_testDebug; fi
+    - if [ "$CXX" == "g++"]; then make linux-gcc && .build/linux64_gcc/bin/unit_testDebug; fi
 
 branches:
   only:
