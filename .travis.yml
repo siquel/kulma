@@ -4,6 +4,9 @@ compiler:
  - clang
  - gcc
 
+before_script:
+    git clone https://github.com/siquel/kaluketju
+
 script:
     - if [ "$CXX" == "clang++"]; then make linux-clang && .build/linux64_clang/bin/unit_testDebug; fi
     - if [ "$CXX" == "g++"]; then make linux-gcc && .build/linux64_gcc/bin/unit_testDebug; fi
