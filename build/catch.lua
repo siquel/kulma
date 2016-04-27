@@ -5,6 +5,10 @@ project "unit_test"
         "NoExceptions",
         "NoRTTI",
     }
+
+    flags {
+        "FatalWarnings"
+    }
     
     files {
         path.join(KULMA_DIR, "tests", "**.cpp")
