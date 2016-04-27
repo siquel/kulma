@@ -7,24 +7,27 @@ endif
 
 GENIE=kaluketju/tools/bin/$(OS)/genie
 
-.PHONY: help
-
-help:
-	@echo Insert something here
-
 projgen:
 	$(GENIE) --file=build/genie.lua vs2013
 	$(GENIE) --file=build/genie.lua vs2015
 	$(GENIE) --gcc=linux-gcc --file=build/genie.lua gmake
 	$(GENIE) --gcc=linux-clang --file=build/genie.lua gmake
 
-linux-build:
-	$(GENIE) --file=build/genie.lua --compiler=linux-clang gmake
-linux-debug64: linux-build
-	make -C .build/linux config=debug64 
-linux-release64: linux-build
-	make -C .build/linux config=release64
-linux: linux-debug64 linux-release64
+linux-build-gcc:
+	$(GENIE) --gcc=linux-gcc --file=build/genie.lua gmake
+linux-debug64-gcc: linux-build-gcc
+	make -C .build/projects/gmake-linux config=debug64 
+linux-release64-gcc: linux-build-gcc
+	make -C .build/projects/gmake-linux config=release64
+linux-gcc: linux-debug64-gcc linux-release64-gcc
+
+linux-build-clang:
+	$(GENIE) --gcc=linux-clang --file=build/genie.lua gmake
+linux-debug64-clang: linux-build-clang
+	make -C .build/projects/gmake-linux-clang config=debug64
+linux-release64-clang: linux-build-clang
+	make -C .build/projects/gmake-linux-clang config=release64
+linux-clang: linux-debug64-clang linux-release64-clang
 
 .PHONY: clean
 clean:
