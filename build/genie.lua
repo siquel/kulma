@@ -1,6 +1,7 @@
 KULMA_DIR = path.getabsolute("..") .. "/"
 KULMA_BUILD_DIR = KULMA_DIR .. ".build/"
 KULMA_THIRDPARTY_DIR = KULMA_DIR .. "3rdparty/"
+KALUKETJU_DIR = path.join(KULMA_DIR, "kaluketju")
 
 solution "kulma"
 	configurations {
@@ -17,9 +18,11 @@ solution "kulma"
 
 	configuration {}
 
-dofile("toolchain.lua")
+dofile(path.join(KALUKETJU_DIR, "scripts", "toolchain.lua"))
 
 toolchain(KULMA_BUILD_DIR, KULMA_THIRDPARTY_DIR)
+dofile("catch.lua")
+
 dofile("kulma.lua")
 
 group "engine"
@@ -27,18 +30,3 @@ kulma_project("kulma", "StaticLib")
 
 group "examples"
 kulma_example_project("00-helloworld")
-
-group "unit_test"
-    project "unit_test"
-    kind("ConsoleApp")
-    files {
-        path.join(KULMA_DIR, "tests", "**.cpp")
-    }
-    links {
-        "kulma"
-    }
-    includedirs {
-        path.join(KULMA_DIR, "include"),
-        KULMA_THIRDPARTY_DIR
-    }
-    

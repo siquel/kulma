@@ -3,25 +3,21 @@ function kulma_project(_name, _kind)
         kind(_kind)
 
         includedirs {
-            KULMA_DIR .. "include"
+            path.join(KULMA_DIR, "include")
+        }
+
+        files {
+            path.join(KULMA_DIR, "src", "**.h"),
+            path.join(KULMA_DIR, "src", "**.cpp")
         }
 
         configuration { "linux-*" }
             links {
                 "X11",
-                "GL"
-            }
-
-        flags {
-            "NoRTTI",
-            "NoExceptions",
-            "FatalWarnings"
+                "GL",
         }
-
-        files {
-            KULMA_DIR .. "src/**.h",
-            KULMA_DIR .. "src/**.cpp"
-        }
+        
+        configuration {}
 end
 
 function kulma_example_project(_name)
@@ -40,14 +36,9 @@ function kulma_example_project(_name)
         path.join(KULMA_DIR, "examples", _name, "**.h")
     }
 
-    flags {
-        "FatalWarnings",
-        "NoRTTI",
-        "NoExceptions",
-    }
-
     links {
         "kulma"
     }
 
+    configuration {}
 end

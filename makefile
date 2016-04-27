@@ -5,12 +5,18 @@ else
 	OS=windows
 endif
 
-GENIE=tools/bin/$(OS)/genie
+GENIE=kaluketju/tools/bin/$(OS)/genie
 
 .PHONY: help
 
 help:
 	@echo Insert something here
+
+projgen:
+	$(GENIE) --file=build/genie.lua vs2013
+	$(GENIE) --file=build/genie.lua vs2015
+	$(GENIE) --gcc=linux-gcc --file=build/genie.lua gmake
+	$(GENIE) --gcc=linux-clang --file=build/genie.lua gmake
 
 linux-build:
 	$(GENIE) --file=build/genie.lua --compiler=linux-clang gmake
