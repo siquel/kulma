@@ -29,6 +29,10 @@ linux-release64-clang: linux-build-clang
 	make -C .build/projects/gmake-linux-clang config=release64
 linux-clang: linux-debug64-clang linux-release64-clang
 
+windows-build: 
+	$(GENIE) --file=build/genie.lua vs2013
+	$(GENIE) --file=build/genie.lua vs2015
+
 .PHONY: clean
 clean:
 	@echo Cleaning..
