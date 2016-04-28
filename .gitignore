@@ -4,4 +4,8 @@
 *.opendb
 *.user
 *.sdf
+
 *.opensdf
+
+*.VC.db
+kaluketju/

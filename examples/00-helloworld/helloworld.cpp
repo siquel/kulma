@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <malloc.h>
 #include "kulma/macros.h"
 #include "kulma/platform.h"
 #include "kulma/debug.h"
 #include "kulma/platform/window.h"
 #include "kulma/platform/platform.h"
+#include "kulma/allocator.h"
 
 int main(int argc, char* argv[]) {
     KULMA_UNUSED(argc, argv);
@@ -17,5 +19,5 @@ int main(int argc, char* argv[]) {
     int32_t exitStatus = platform->entryPoint();
     platform::destroy();
 
-    return exitStatus; 
+    return exitStatus;
 }
