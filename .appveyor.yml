@@ -2,16 +2,26 @@ os:
   - Visual Studio 2015
 
 platform:
-  - x86
+  - Win32
   - x64
 
+environment:
+  matrix:
+  - TOOLSET: vs2013
+  - TOOLSET: vs2015
+
 configuration:
-  - Debug
-  - Release
+  - debug
+  - release
   
 branches:
   only:
     - master
 
+install:
+  - git clone https://github.com/siquel/kaluketju
+  - kaluketju\tools\bin\windows\genie --file=build/genie.lua %TOOLSET%
+  - vshax.bat %TOOLSET%
+
 build:
-  project: build/kulma.sln
+  project: .build/projects/$(TOOLSET)/kulma.sln
