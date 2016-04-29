@@ -1,6 +1,6 @@
 #include "kulma/platform/platform.h"
 #include "kulma/debug.h"
-#include <new.h>
+#include <new>
 #include <stdio.h>
 #include "kulma/platform/window.h"
 #include "kulma/platform/engine.h"
@@ -27,14 +27,14 @@ namespace kulma
 namespace kulma
 {
     static char s_memory[sizeof(Engine)];
-    static Engine* s_engine = nullptr;
+    static Engine* s_engine = NULL;
 
     void run()
     {
         s_engine = new(s_memory)Engine;
         s_engine->run();
         s_engine->~Engine();
-        s_engine = nullptr;
+        s_engine = NULL;
     }
 
     Engine* engine()
