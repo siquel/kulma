@@ -5,6 +5,7 @@
 #include "kulma/platform/platform.h"
 #include "kulma/platform/window.h"
 #include "kulma/platform/engine.h"
+#include "../thread/thread.h"
 #include <new>
 #include <X11/extensions/Xrandr.h>
 #include <X11/Xlib.h>
@@ -43,6 +44,25 @@ namespace kulma
 
             m_x11_display = XOpenDisplay(NULL);
             KULMA_ASSERT(m_x11_display != NULL, "XOpenDisplay failed");
+
+            ::Window root = RootWindow(m_x11_display, DefaultScreen(m_x11_display));
+
+            wm_delete_msg = XInternAtom(m_x11_display, "WM_DELETE_WINDOW", false);
+            
+            // Get screen config and save it for later use
+            m_screen_config = XRRGetScreenInfo(m_x11_display, root);
+
+            Thread thread;
+            thread.start(thread_proc, NULL);
+
+            while (!s_exit)
+            {
+            }
+
+            thread.stop();
+
+            XRRFreeScreenConfigInfo(m_screen_config);
+            XCloseDisplay(m_x11_display);
 
             return EXIT_SUCCESS;
         }
