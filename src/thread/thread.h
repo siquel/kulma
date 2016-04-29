@@ -6,6 +6,8 @@
 #       define WIN32_LEAN_AND_MEAN
 #   endif
 #   include <Windows.h>
+#elif KULMA_PLATFORM_LINUX
+#   include <pthread.h>
 #endif
 
 #include <stdint.h>
@@ -29,6 +31,8 @@ namespace kulma
 #if KULMA_PLATFORM_WINDOWS
               m_handle(INVALID_HANDLE_VALUE),
               m_thread_id(UINT32_MAX)
+#elif KULMA_PLATFORM_LINUX
+              m_handle(0)
 #endif
         {
 
@@ -51,8 +55,25 @@ namespace kulma
 #if KULMA_PLATFORM_WINDOWS
             m_handle = CreateThread(NULL, p_stack_size, thread_proc, this, 0, NULL);
             KULMA_ASSERT(m_handle != INVALID_HANDLE_VALUE, "CreateThread: GetLastError = %d", GetLastError());
-#else
-#   error "Not implemented thread for platform"
+#elif KULMA_PLATFORM_LINUX
+
+            int result;
+            pthread_attr_t attr;
+            result = pthread_attr_init(&attr);
+            KULMA_ASSERT(result == 0, "pthread_attr_init failed %d", result);
+
+            if (p_stack_size != 0) 
+            {
+                result = pthread_attr_setstacksize(&attr, p_stack_size);
+                KULMA_ASSERT(result == 0, "pthread_attr_setstacksize failed %d", result);
+            }
+
+            result = pthread_create(&m_handle, &attr, thread_proc, this);
+            KULMA_ASSERT(result == 0, "pthread_create failed %d", result);
+
+            result = pthread_attr_destroy(&attr);
+            KULMA_ASSERT(result == 0, "pthread_attr_destroy failed %d", result);
+
 #endif
             m_is_running = true;
             // try to enter the semaphore gate
@@ -65,6 +86,14 @@ namespace kulma
             Thread* thread = static_cast<Thread*>(p);
             int32_t result = thread->run();
             return result;
+        }
+#elif KULMA_PLATFORM_LINUX
+        static void* thread_proc(void* p)
+        {
+            Thread* thread = (Thread*)p;
+            static int32_t result = -1;
+            result = thread->run();
+            return (void*)&result;
         }
 #endif
 
@@ -97,6 +126,8 @@ namespace kulma
 #if KULMA_PLATFORM_WINDOWS
         DWORD m_thread_id;
         HANDLE m_handle;
+#elif KULMA_PLATFORM_LINUX
+        pthread_t m_handle;
 #endif
     };
 }
