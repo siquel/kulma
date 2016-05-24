@@ -47,7 +47,7 @@ namespace kulma
 
             ::Window root = RootWindow(m_x11_display, DefaultScreen(m_x11_display));
 
-            wm_delete_msg = XInternAtom(m_x11_display, "WM_DELETE_WINDOW", false);
+            //wm_delete_msg = XInternAtom(m_x11_display, "WM_DELETE_WINDOW", false);
             
             // Get screen config and save it for later use
             m_screen_config = XRRGetScreenInfo(m_x11_display, root);
