@@ -1,15 +1,26 @@
 language: cpp
 
-compiler:
- - clang
- - gcc
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
+      env: COMPILER=g++-5
+
+    - os: linux
+      compiler: clang
+      env: COMPILER=clang++
 
 before_script:
     git clone https://github.com/siquel/kaluketju
 
 script:
-    - if [ "$CXX" == "clang++" ]; then make linux-clang && .build/linux64_clang/bin/unit_testDebug; fi
-    - if [ "$CXX" == "g++" ]; then make linux-gcc && .build/linux64_gcc/bin/unit_testDebug; fi
+    - if [ "$CXX" == "clang++" ]; then make CXX=$COMPILER linux-clang && .build/linux64_clang/bin/unit_testDebug; fi
+    - if [ "$CXX" == "g++" ]; then make CXX=$COMPILER linux-gcc && .build/linux64_gcc/bin/unit_testDebug; fi
+    - $COMPILER --version
 
 branches:
   only:

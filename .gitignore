@@ -1,7 +1,11 @@
 .build
 .git
-.suo
+*.suo
 *.opendb
 *.user
 *.sdf
+
+*.opensdf
+
 *.VC.db
+kaluketju/

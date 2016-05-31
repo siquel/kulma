@@ -13,7 +13,7 @@ environment:
 configuration:
   - debug
   - release
-  
+
 branches:
   only:
     - master
@@ -21,7 +21,7 @@ branches:
 install:
   - git clone https://github.com/siquel/kaluketju
   - kaluketju\tools\bin\windows\genie --file=build/genie.lua %TOOLSET%
-  - vshax.bat %TOOLSET%
+  - powershell -executionpolicy bypass -File vshax.ps1 -toolset %TOOLSET%
 
 build:
   project: .build/projects/$(TOOLSET)/kulma.sln

@@ -17,9 +17,15 @@ function kulma_project(_name, _kind)
 
         configuration { "linux-*" }
             links {
+                "pthread",
+                "rt",
                 "X11",
+                "Xrandr",
                 "GL",
-        }
+            }
+            buildoptions {
+                "-std=c++11"
+            }
         
         configuration {}
 end
@@ -43,7 +49,20 @@ function kulma_example_project(_name)
         path.join(KULMA_DIR, "examples", _name, "**.cpp"),
         path.join(KULMA_DIR, "examples", _name, "**.h")
     }
+    configuration { "linux-*" }
+            links {
+                "rt",
+                "pthread",
+                "X11",
+                "Xrandr",
+                "GL",
+            }
+            buildoptions {
+                "-std=c++11"
+            }
 
+    configuration {}
+            
     links {
         "kulma"
     }

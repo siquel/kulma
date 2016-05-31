@@ -103,6 +103,7 @@
 
 // annoying stuff
 #if KULMA_COMPILER_MSVC
-#pragma warning(disable : 4514)     // unreferenced inline function has been removed
+#pragma warning(disable : 4514) // unreferenced inline function has been removed
+#pragma warning(disable : 4127) // conditional expression is constant
 #endif
 

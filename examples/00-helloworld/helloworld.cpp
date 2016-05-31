@@ -4,6 +4,35 @@
 #include "kulma/platform.h"
 #include "kulma/debug.h"
 #include "kulma/allocator.h"
+#include <kulma/thread/thread.h>
+#include <kulma/thread/mutex.h>
+#include <kulma/os.h>
+
+using namespace kulma;
+
+static kulma::Semaphore s_sem;
+
+struct ThreadParams
+{
+    int index;
+};
+
+int8_t thread_proc(void* userdata) 
+{
+    ThreadParams* params = (ThreadParams*)userdata;
+    printf("Thread %d begins and waits for the sem\n", params->index);
+    
+    s_sem.wait();
+
+    printf("Thread %d enters the sem\n", params->index);
+    
+    os::sleep(1000);
+    
+    printf("Thread %d releases the sem\n", params->index);
+    s_sem.post();
+
+    return EXIT_SUCCESS;
+}
 
 int main(int argc, char* argv[]) {
     KULMA_UNUSED(argc, argv);
@@ -12,44 +41,24 @@ int main(int argc, char* argv[]) {
         KULMA_ARCH_NAME,
         KULMA_COMPILER_NAME
     );
-    KULMA_TRACE("top kek %d gg %s", 555, "asd");
-    //KULMA_WARN(1 == 0, "1 != 0");
-    //KULMA_ASSERT(0 == 1, "0 != 1");
+    using namespace kulma;
 
-    // EBIN TEST
+    const int32_t ThreadCount = 5;
+    Thread entries[ThreadCount];
+    ThreadParams params[ThreadCount];
 
-    const size_t size = 5;
-    const size_t size_in_bytes = sizeof(int) * 10;
-    void* address = malloc(size_in_bytes);
-
-    kulma::LinearAllocator linearAllocator(size_in_bytes, address);
-
-    int* numbers = (int*)linearAllocator.allocate(sizeof(int) * size);
-
-    for (size_t i = 0; i < size; i++)
+    for (int32_t i = 0; i < ThreadCount; ++i)
     {
-        numbers[i] = (int)i;
-        printf("%d", numbers[i]);
+        params[i] = { i };
+        entries[i].start(thread_proc, &params[i]);
     }
 
-    printf("\n");
+    os::sleep(500);
+    printf("Main thread calls post(3)\n");
 
-    linearAllocator.clear();
+    s_sem.post(3);
 
-    int* number = (int*)linearAllocator.allocate(sizeof(int));
+    printf("Main thread exits\n");
 
-    *number = 1337;
-
-    for (size_t i = 0; i < size; i++)
-    {
-        printf("%d", numbers[i]);
-    }
-
-    linearAllocator.clear();
-
-    free(address);
-
-    // END OF EBIN TEST
-
-    return 0; 
+    return 0;
 }
