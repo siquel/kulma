@@ -9,7 +9,8 @@ before_script:
 
 script:
     - if [ "$CXX" == "clang++" ]; then make linux-clang && .build/linux64_clang/bin/unit_testDebug; fi
-    - if [ "$CXX" == "g++" ]; then make linux-gcc && .build/linux64_gcc/bin/unit_testDebug; fi
+    - if [ "$CXX" == "g++-4.8" ]; then make linux-gcc && .build/linux64_gcc/bin/unit_testDebug; fi
+    - $CXX --version
 
 branches:
   only:
@@ -17,3 +18,13 @@ branches:
 
 notifications:
   email: false
+
+install:
+ - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8
