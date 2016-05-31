@@ -18,6 +18,7 @@ function kulma_project(_name, _kind)
         configuration { "linux-*" }
             links {
                 "pthread",
+                "rt",
                 "X11",
                 "Xrandr",
                 "GL",
@@ -50,6 +51,7 @@ function kulma_example_project(_name)
     }
     configuration { "linux-*" }
             links {
+                "rt",
                 "pthread",
                 "X11",
                 "Xrandr",
@@ -58,7 +60,7 @@ function kulma_example_project(_name)
             buildoptions {
                 "-std=c++11"
             }
-            
+
     configuration {}
             
     links {
