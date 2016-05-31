@@ -6,6 +6,9 @@
 #include "kulma/allocator.h"
 #include <kulma/thread/thread.h>
 #include <kulma/thread/mutex.h>
+#include <kulma/os.h>
+
+using namespace kulma;
 
 static kulma::Semaphore s_sem;
 
@@ -23,7 +26,7 @@ int8_t thread_proc(void* userdata)
 
     printf("Thread %d enters the sem\n", params->index);
     
-    Sleep(1000);
+    os::sleep(1000);
     
     printf("Thread %d releases the sem\n", params->index);
     s_sem.post();
