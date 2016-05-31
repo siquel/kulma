@@ -104,7 +104,10 @@ namespace kulma
             WaitForSingleObject(m_handle, INFINITE);
             CloseHandle(m_handle);
             m_handle = INVALID_HANDLE_VALUE;
-#endif
+#elif KULMA_PLATFORM_LINUX
+            union { void* ptr; int32_t i; } cast;
+            pthread_join(m_handle, cast.ptr);
+#endif 
             m_is_running = false;
         }
       
@@ -112,7 +115,7 @@ namespace kulma
         {
 #if KULMA_PLATFORM_WINDOWS
             m_thread_id = ::GetCurrentThreadId();
-            KULMA_TRACE("Starting thread %d", m_thread_id);
+            //KULMA_TRACE("Starting thread %d", m_thread_id);
 #endif
             // the thread got ownership of sem
             m_semaphore.post();

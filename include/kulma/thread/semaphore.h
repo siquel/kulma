@@ -33,7 +33,7 @@ namespace kulma
         {
 #if KULMA_PLATFORM_WINDOWS
             m_handle = CreateSemaphoreA(
-                NULL, 
+                NULL,     // default security attributes
                 0,        // initial count of semaphores
                 LONG_MAX, // maximum count of semaphores
                 NULL);    // unnamed semaphore
@@ -66,7 +66,7 @@ namespace kulma
 #if KULMA_PLATFORM_WINDOWS
             BOOL err = ReleaseSemaphore(
                 m_handle, // which semaphore to be released
-                p_count,  // 
+                p_count,  // increase count by p_count
                 NULL);    // not interested in previous count
             KULMA_ASSERT(err != 0, "ReleaseSemaphore failed: GetLastError = %d", GetLastError());
 #elif KULMA_PLATFORM_LINUX
@@ -90,7 +90,7 @@ namespace kulma
         bool wait(int32_t p_millisecs = -1)
         {
 #if KULMA_PLATFORM_WINDOWS
-            // returns true if the semaphore object was signaled, false if timeout occured
+            // returns true if the semaphore object was signaled, false if timeout occurred
             return WAIT_OBJECT_0 == WaitForSingleObject(
                 m_handle, 
                 (0 > p_millisecs) ? INFINITE : (DWORD)p_millisecs);
