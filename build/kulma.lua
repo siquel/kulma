@@ -55,6 +55,10 @@ function kulma_example_project(_name)
                 "Xrandr",
                 "GL",
             }
+            buildoptions {
+                "-std=c++11"
+            }
+            
     configuration {}
             
     links {
