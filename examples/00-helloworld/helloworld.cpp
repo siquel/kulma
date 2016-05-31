@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         entries[i].start(thread_proc, &params[i]);
     }
 
-    Sleep(500);
+    os::sleep(500);
     printf("Main thread calls post(3)\n");
 
     s_sem.post(3);

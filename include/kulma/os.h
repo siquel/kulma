@@ -8,6 +8,8 @@
 #       define WIN32_LEAN_AND_MEAN
 #   endif
 #   include <Windows.h>
+#elif KULMA_PLATFORM_LINUX
+#   include <unistd.h> // usleep
 #endif
 
 namespace kulma

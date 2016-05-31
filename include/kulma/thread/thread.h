@@ -106,7 +106,7 @@ namespace kulma
             m_handle = INVALID_HANDLE_VALUE;
 #elif KULMA_PLATFORM_LINUX
             union { void* ptr; int32_t i; } cast;
-            pthread_join(m_handle, cast.ptr);
+            pthread_join(m_handle, &cast.ptr);
 #endif 
             m_is_running = false;
         }
