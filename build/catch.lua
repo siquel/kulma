@@ -18,3 +18,8 @@ project "unit_test"
         path.join(KULMA_DIR, "include"),
         KULMA_THIRDPARTY_DIR
     }
+
+    configuration { "linux-*" }
+        buildoptions { "-std=c++11" }
+
+    configuration {}
