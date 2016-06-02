@@ -29,4 +29,17 @@ TEST_CASE("VA args", "[macro]") {
         REQUIRE(KULMA_COUNTOF(s_ints) == 7);
         REQUIRE(KULMA_COUNTOF(s_strings) == 3);
     }
+
+    SECTION("FOURCC") {
+        uint32_t cc = KULMA_MAKEFOURCC('E', 'N', 'K', 'O');
+        
+        REQUIRE(((uint8_t*)&cc)[0] == 'E');
+        REQUIRE(((uint8_t*)&cc)[1] == 'N');
+        REQUIRE(((uint8_t*)&cc)[2] == 'K');
+        REQUIRE(((uint8_t*)&cc)[3] == 'O');
+        // little endian
+        REQUIRE(cc == uint32_t('OKNE'));
+        // E = 0x45, N=0x4E, K = 0x4B, O = 0x4F
+        REQUIRE(cc == 0x4F4B4E45);
+    }
 }

@@ -15,6 +15,10 @@ namespace kulma {
 #define KULMA_CONCAT_(_x, _y) _x ## _y
 #define KULMA_CONCAT(_x, _y) KULMA_CONCAT_(_x, _y)
 
+#define KULMA_MAKEFOURCC(a, b, c, d)                           \
+        ( ( (uint32_t)(a) | ( (uint32_t)(b) << 8) |            \
+        ( (uint32_t)(c) << 16) | ( (uint32_t)(d) << 24) ) )
+
 // VS only passes the first element
 #if KULMA_COMPILER_MSVC
 #   define KULMA_VA_ARGS_PASS(...) KULMA_VA_ARGS_PASS_1_ __VA_ARGS__ KULMA_VA_ARGS_PASS_2_
