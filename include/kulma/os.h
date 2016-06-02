@@ -10,6 +10,8 @@
 #   include <Windows.h>
 #elif KULMA_PLATFORM_LINUX
 #   include <unistd.h> // usleep
+#   include <sys/time.h> // gettimeofday
+#   include <dlfcn.h> //dlopen, dlclose, dlsym
 #endif
 
 #if KULMA_COMPILER_MSVC
@@ -49,7 +51,7 @@ namespace kulma
 #elif KULMA_PLATFORM_LINUX
             struct timeval now;
             gettimeofday(&now, 0);
-            retrun now.tv_sec*INT64_C(1000000) + now.tv_usec;
+            return now.tv_sec*INT64_C(1000000) + now.tv_usec;
 #endif
         }
 

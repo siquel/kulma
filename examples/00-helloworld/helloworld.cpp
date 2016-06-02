@@ -44,8 +44,9 @@ int main(int argc, char* argv[]) {
         KULMA_COMPILER_NAME
     );
 
-    char buffer[MAX_PATH];
-    char* cwd = os::current_working_directory(buffer, MAX_PATH);
+    const uint32_t MaxPath = 4096u;
+    char buffer[MaxPath];
+    char* cwd = os::current_working_directory(buffer, MaxPath);
 
     printf("current working directory is %s\n", cwd);
 
