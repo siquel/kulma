@@ -35,13 +35,19 @@ int8_t thread_proc(void* userdata)
 }
 
 int main(int argc, char* argv[]) {
+    using namespace kulma;
+
     KULMA_UNUSED(argc, argv);
     printf("Hello world! Running on %s, target arch %s, compiled with %s\n", 
         KULMA_PLATFORM_NAME,
         KULMA_ARCH_NAME,
         KULMA_COMPILER_NAME
     );
-    using namespace kulma;
+
+    char buffer[MAX_PATH];
+    char* cwd = os::current_working_directory(buffer, MAX_PATH);
+
+    printf("current working directory is %s\n", cwd);
 
     const int32_t ThreadCount = 5;
     Thread entries[ThreadCount];
