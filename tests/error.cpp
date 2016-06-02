@@ -19,4 +19,10 @@ TEST_CASE("Errors", "[error]") {
         KULMA_ERROR_SET((&err), ENKO, "Enko prkl");
         REQUIRE(!err.isOk());
     }
+
+    SECTION("scope") {
+        kulma::Error err;
+        kulma::ScopedError scoped(&err);
+        //err.setError(ENKO, "error"); should crash
+    }
 }
