@@ -91,6 +91,15 @@ namespace kulma
             return ::getcwd(p_buffer, p_size);
 #endif
         }
+
+        inline int32_t set_working_directory(const char* p_path)
+        {
+#if KULMA_PLATFORM_WINDOWS
+            return ::_chdir(p_path);
+#elif KULMA_PLATFORM_LINUX
+            return ::chdir(p_path);
+#endif
+        }
     }
 
 }

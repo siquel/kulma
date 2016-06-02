@@ -46,6 +46,7 @@ int main(int argc, char* argv[]) {
 
     const uint32_t MaxPath = 4096u;
     char buffer[MaxPath];
+    //os::set_working_directory("..");
     char* cwd = os::current_working_directory(buffer, MaxPath);
 
     printf("current working directory is %s\n", cwd);
