@@ -7,7 +7,7 @@
             do {                                                            \
                 KULMA_TRACE("Error %d: %s", result.m_code, "" msg);         \
                 ptr->setError(result, "" msg);                              \
-            while (0)
+            } while (0)
 
 #define KULMA_ERROR_RESULT(err, code)                                       \
             static_assert(code != 0, "Error code 0 is reserved");           \
@@ -61,8 +61,8 @@ namespace kulma
             return m_code == p_rhs.m_code;
         }
     private:
-        uint32_t m_code; ///< FOURCC code
         const char* m_msg; ///< Error message
+        uint32_t m_code; ///< FOURCC code
     };
 
     class ScopedError
