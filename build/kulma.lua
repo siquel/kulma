@@ -12,7 +12,8 @@ function kulma_project(_name, _kind)
 
         files {
             path.join(KULMA_DIR, "src", "**.h"),
-            path.join(KULMA_DIR, "src", "**.cpp")
+            path.join(KULMA_DIR, "src", "**.cpp"),
+            path.join(KULMA_DIR, "include", "**.h")
         }
 
         configuration { "linux-*" }
