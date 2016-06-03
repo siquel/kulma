@@ -2,6 +2,7 @@
 
 #include <stdint.h> // uint32_t
 #include <sys/stat.h> // stat
+#include <kulma/string.h>
 #include <kulma/platform.h>
 #if KULMA_PLATFORM_WINDOWS
 #   ifndef WIN32_LEAN_AND_MEAN
@@ -101,12 +102,51 @@ namespace kulma
 
     inline void setenv(const char* p_name, const char* p_value)
     {
-        KULMA_UNUSED(p_name, p_value);
+#if KULMA_PLATFORM_WINDOWS
+        // we could use putenv so getenv should work?
+        //kulma::snprintf("%s=%s", )
+        ::SetEnvironmentVariableA(p_name, p_value);
+#elif KULMA_PLATFORM_LINUX
+        ::setenv(p_name, p_value, 1);
+#endif
     }
 
     inline void unsetenv(const char* p_name)
     {
-        KULMA_UNUSED(p_name);
+#if KULMA_PLATFORM_WINDOWS
+        ::SetEnvironmentVariableA(p_name, NULL);
+#elif KULMA_PLATFORM_LINUX
+        ::unsetenv(p_name);
+#endif
+    }
+
+    inline const char* getenv(const char* p_name)
+    {
+#if KULMA_PLATFORM_WINDOWS
+        // getenv can not retrieve values set by ::SetEnvironmentVariableA
+        return ::getenv(p_name);
+#   if 0
+        KULMA_ASSERT(p_buffer != NULL, "getenv: p_buffer can't be null!");
+        KULMA_ASSERT(p_size != 0, "getenv: p_size can't be 0!");
+        uint32_t len = GetEnvironmentVariableA(p_name, p_buffer, p_size);
+        if (len == 0)
+        {
+            DWORD err = GetLastError();
+            if (err == ERROR_ENVVAR_NOT_FOUND)
+            {
+                return NULL;
+            }
+            else
+            {
+                KULMA_ASSERT(0, "Unkown error: GetLastError() %d", err);
+            }
+        }
+        return p_buffer;
+#   endif
+#elif KULMA_PLATFORM_LINUX
+        return ::getenv(p_name);
+#endif
+
     }
 
     struct FileInfo

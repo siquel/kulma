@@ -52,15 +52,10 @@ int main(int argc, char* argv[]) {
     printf("current working directory is %s\n", cwd);
 
     FileInfo fileInfo;
-#if KULMA_PLATFORM_LINUX
-    bool result = stat(cwd, fileInfo);
-    KULMA_ASSERT(result, "cwd does not exist");
-    printf("/ is %s\n", (fileInfo.m_type == FileInfo::File) ? "file" : "directory");
-#else
     bool result = stat(cwd, fileInfo);
     KULMA_ASSERT(result, "cwd does not exist");
     printf("cwd is %s\n", (fileInfo.m_type == FileInfo::File) ? "file" : "directory");
-#endif
+    printf("PATH=%s\n", kulma::getenv("PATH"));
 
     const int32_t ThreadCount = 5;
     Thread entries[ThreadCount];
