@@ -53,11 +53,13 @@ int main(int argc, char* argv[]) {
 
     FileInfo fileInfo;
 #if KULMA_PLATFORM_LINUX
-    bool result = stat("/", fileInfo);
-    KULMA_ASSERT(result, "/ does not exist");
+    bool result = stat(cwd, fileInfo);
+    KULMA_ASSERT(result, "cwd does not exist");
     printf("/ is %s\n", (fileInfo.m_type == FileInfo::File) ? "file" : "directory");
 #else
-    KULMA_UNUSED(fileInfo);
+    bool result = stat(cwd, fileInfo);
+    KULMA_ASSERT(result, "cwd does not exist");
+    printf("cwd is %s\n", (fileInfo.m_type == FileInfo::File) ? "file" : "directory");
 #endif
 
     const int32_t ThreadCount = 5;

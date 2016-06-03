@@ -126,9 +126,18 @@ namespace kulma
     {
         p_fileInfo.m_size = 0;
         p_fileInfo.m_type = FileInfo::Count;
-
 #if KULMA_COMPILER_MSVC
-#   error "not implemented"
+        struct ::_stat64 st;
+        int32_t result = ::_stat64(p_path, &st);
+        if (result != 0) return false;
+        if ((st.st_mode & _S_IFREG) != 0)
+        {
+            p_fileInfo.m_type = FileInfo::File;
+        }
+        else if ((st.st_mode & _S_IFDIR) != 0)
+        {
+            p_fileInfo.m_type = FileInfo::Directory;
+        }
 #else
         struct ::stat st;
         int32_t result = ::stat(p_path, &st);
