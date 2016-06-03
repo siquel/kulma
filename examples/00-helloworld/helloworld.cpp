@@ -26,7 +26,7 @@ int8_t thread_proc(void* userdata)
 
     printf("Thread %d enters the sem\n", params->index);
     
-    os::sleep(1000);
+    kulma::sleep(1000);
     
     printf("Thread %d releases the sem\n", params->index);
     s_sem.post();
@@ -47,9 +47,18 @@ int main(int argc, char* argv[]) {
     const uint32_t MaxPath = 4096u;
     char buffer[MaxPath];
     //os::set_working_directory("..");
-    char* cwd = os::current_working_directory(buffer, MaxPath);
+    char* cwd = current_working_directory(buffer, MaxPath);
 
     printf("current working directory is %s\n", cwd);
+
+    FileInfo fileInfo;
+#if KULMA_PLATFORM_LINUX
+    bool result = stat("/", fileInfo);
+    KULMA_ASSERT(result, "/ does not exist");
+    printf("/ is %s\n", (fileInfo.m_type == FileInfo::File) ? "file" : "directory");
+#else
+    KULMA_UNUSED(fileInfo);
+#endif
 
     const int32_t ThreadCount = 5;
     Thread entries[ThreadCount];
@@ -61,7 +70,7 @@ int main(int argc, char* argv[]) {
         entries[i].start(thread_proc, &params[i]);
     }
 
-    os::sleep(500);
+    kulma::sleep(500);
     printf("Main thread calls post(3)\n");
 
     s_sem.post(3);
