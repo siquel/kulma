@@ -43,7 +43,12 @@ int main(int argc, char* argv[]) {
         KULMA_ARCH_NAME,
         KULMA_COMPILER_NAME
     );
-
+#ifdef KULMA_DEBUG
+    int32_t debug = 1;
+#else
+    int32_t debug = 0;
+#endif
+    printf("Debug = %d\n", debug);
     const int32_t ThreadCount = 5;
     Thread entries[ThreadCount];
     ThreadParams params[ThreadCount];
