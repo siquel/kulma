@@ -44,19 +44,6 @@ int main(int argc, char* argv[]) {
         KULMA_COMPILER_NAME
     );
 
-    const uint32_t MaxPath = 4096u;
-    char buffer[MaxPath];
-    //os::set_working_directory("..");
-    char* cwd = current_working_directory(buffer, MaxPath);
-
-    printf("current working directory is %s\n", cwd);
-
-    FileInfo fileInfo;
-    bool result = stat(cwd, fileInfo);
-    KULMA_ASSERT(result, "cwd does not exist");
-    printf("cwd is %s\n", (fileInfo.m_type == FileInfo::File) ? "file" : "directory");
-    printf("PATH=%s\n", kulma::getenv("PATH"));
-
     const int32_t ThreadCount = 5;
     Thread entries[ThreadCount];
     ThreadParams params[ThreadCount];

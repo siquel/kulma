@@ -17,7 +17,10 @@
 
 #if KULMA_COMPILER_MSVC
 #   include <direct.h> // _getcwd
+#   include <io.h>     // _access
 #endif
+
+#include <kulma/debug.h> // KULMA_ASSERT
 
 namespace kulma
 {
@@ -195,4 +198,61 @@ namespace kulma
         return true;
     }
 
+    inline void touch(const char* p_path)
+    {
+#if KULMA_PLATFORM_WINDOWS
+        HANDLE file = ::CreateFileA(p_path,
+            GENERIC_READ | GENERIC_WRITE, // access
+            0, // share mode
+            NULL, // security attributes
+            CREATE_ALWAYS, // create new file always
+            FILE_ATTRIBUTE_NORMAL, // no other attributes set
+            NULL  // template
+            );
+        KULMA_ASSERT(file != INVALID_HANDLE_VALUE, "CreateFile failed, GetLastError = %d", GetLastError());
+        ::CloseHandle(file);
+#elif KULMA_PLATFORM_LINUX
+#   error "not implemented"
+#endif
+    }
+
+    inline void remove_file(const char* p_path)
+    {
+#if KULMA_PLATFORM_WINDOWS
+        BOOL err = ::DeleteFileA(p_path);
+        KULMA_ASSERT(err != 0, "DeleteFile failed, GetLastError = %d", GetLastError());
+#elif KULMA_PLATFORM_LINUX
+#   error "not implemented"
+#endif
+    }
+
+    inline void mkdir(const char* p_path)
+    {
+#if KULMA_PLATFORM_WINDOWS
+        BOOL err = ::CreateDirectoryA(p_path, NULL);
+        KULMA_ASSERT(err != 0, "CreateDirectory failed, GetLastError = %d", GetLastError());
+#elif KULMA_PLATFORM_LINUX
+#   error "not implemented"
+#endif
+    }
+
+    inline void rmdir(const char* p_path)
+    {
+#if KULMA_PLATFORM_WINDOWS
+        BOOL err = RemoveDirectoryA(p_path);
+        KULMA_ASSERT(err != 0, "RemoveDirectory failed, GetLastError = %d", GetLastError());
+#elif KULMA_PLATFORM_LINUX
+#   error "not implemented"
+#endif
+    }
+
+    inline bool exists(const char* p_path)
+    {
+#if KULMA_PLATFORM_WINDOWS
+        // 0 = existence only
+        return _access(p_path, 0) != -1;
+#elif KULMA_PLATFORM_LINUX
+        return access(p_path, F_OK);
+#endif
+    }
 }
