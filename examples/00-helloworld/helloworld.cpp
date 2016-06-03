@@ -26,7 +26,7 @@ int8_t thread_proc(void* userdata)
 
     printf("Thread %d enters the sem\n", params->index);
     
-    os::sleep(1000);
+    kulma::sleep(1000);
     
     printf("Thread %d releases the sem\n", params->index);
     s_sem.post();
@@ -35,14 +35,20 @@ int8_t thread_proc(void* userdata)
 }
 
 int main(int argc, char* argv[]) {
+    using namespace kulma;
+
     KULMA_UNUSED(argc, argv);
     printf("Hello world! Running on %s, target arch %s, compiled with %s\n", 
         KULMA_PLATFORM_NAME,
         KULMA_ARCH_NAME,
         KULMA_COMPILER_NAME
     );
-    using namespace kulma;
-
+#ifdef KULMA_DEBUG
+    int32_t debug = 1;
+#else
+    int32_t debug = 0;
+#endif
+    printf("Debug = %d\n", debug);
     const int32_t ThreadCount = 5;
     Thread entries[ThreadCount];
     ThreadParams params[ThreadCount];
@@ -53,7 +59,7 @@ int main(int argc, char* argv[]) {
         entries[i].start(thread_proc, &params[i]);
     }
 
-    os::sleep(500);
+    kulma::sleep(500);
     printf("Main thread calls post(3)\n");
 
     s_sem.post(3);

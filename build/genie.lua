@@ -11,6 +11,11 @@ solution "kulma"
 
 	language "C++"
 
+    configuration { "debug" }
+        defines { "KULMA_DEBUG" }
+
+    configuration {}
+
 KULMA_DIR = path.getabsolute("..") .. "/"
 KULMA_BUILD_DIR = KULMA_DIR .. ".build/"
 KULMA_THIRDPARTY_DIR = KULMA_DIR .. "3rdparty/"

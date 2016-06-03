@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "platform.h"
-
+#include <kulma/macros.h>
 namespace kulma 
 {
     inline void debugBreak() 
@@ -19,7 +19,7 @@ namespace kulma
     void fatal(const char* p_path, uint16_t p_line, const char* p_format, ...);
 }
 
-#ifdef NDEBUG
+#ifndef KULMA_DEBUG
 #   define _KULMA_TRACE(_format, ...) do { } while (0)
 #   define _KULMA_WARN(_condition, _format, ...) do { } while (0)
 #   define _KULMA_ASSERT(_condition, _format, ...) do { KULMA_UNUSED(_condition); } while (0)
