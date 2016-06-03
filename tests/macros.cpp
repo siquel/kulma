@@ -38,7 +38,7 @@ TEST_CASE("VA args", "[macro]") {
         REQUIRE(((uint8_t*)&cc)[2] == 'K');
         REQUIRE(((uint8_t*)&cc)[3] == 'O');
         // little endian
-        REQUIRE(cc == uint32_t('OKNE'));
+        //REQUIRE(cc == uint32_t('OKNE')); GCC doesn't like this
         // E = 0x45, N=0x4E, K = 0x4B, O = 0x4F
         REQUIRE(cc == 0x4F4B4E45);
     }
