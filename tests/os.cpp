@@ -1,11 +1,17 @@
 #include <catch/catch.hpp>
 #include <kulma/os.h>
+#include <string.h>
 
 static const char* s_directoryPath = "test";
 static const char* s_filePath = "kulma_test_file";
 
 TEST_CASE("OS", "[os]") {
     SECTION("directory") {
+        if (!kulma::exists(s_directoryPath))
+        {
+            kulma::mkdir(s_directoryPath);
+        }
+        REQUIRE(kulma::exists(s_directoryPath) == true);
         kulma::rmdir(s_directoryPath);
         REQUIRE(kulma::exists(s_directoryPath) == false);
         kulma::mkdir(s_directoryPath);
@@ -13,8 +19,11 @@ TEST_CASE("OS", "[os]") {
     }
 
     SECTION("file") {
-        // touch doesn't fail if the file exists
-        kulma::touch(s_filePath);
+        // touch doesn't fail if the file exists, oh yes on linux it will..
+        if (!kulma::exists(s_filePath)) 
+        {
+            kulma::touch(s_filePath);
+        }
         REQUIRE(kulma::exists(s_filePath) == true);
         // remove it 
         kulma::remove_file(s_filePath);

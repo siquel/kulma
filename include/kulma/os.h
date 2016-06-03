@@ -10,9 +10,10 @@
 #   endif
 #   include <Windows.h>
 #elif KULMA_PLATFORM_LINUX
-#   include <unistd.h> // usleep
+#   include <unistd.h> // usleep, getcwd, unlink, rmdir
 #   include <sys/time.h> // gettimeofday
 #   include <dlfcn.h> //dlopen, dlclose, dlsym
+#   include <errno.h> //errno
 #endif
 
 #if KULMA_COMPILER_MSVC
@@ -212,7 +213,8 @@ namespace kulma
         KULMA_ASSERT(file != INVALID_HANDLE_VALUE, "CreateFile failed, GetLastError = %d", GetLastError());
         ::CloseHandle(file);
 #elif KULMA_PLATFORM_LINUX
-#   error "not implemented"
+        int32_t err = ::mknod(p_path, S_IFREG | S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH, 0);
+        KULMA_ASSERT(err == 0, "mknod failed, errno = %d", errno);
 #endif
     }
 
@@ -222,7 +224,8 @@ namespace kulma
         BOOL err = ::DeleteFileA(p_path);
         KULMA_ASSERT(err != 0, "DeleteFile failed, GetLastError = %d", GetLastError());
 #elif KULMA_PLATFORM_LINUX
-#   error "not implemented"
+        int32_t err = ::unlink(p_path);
+        KULMA_ASSERT(err == 0, "unlink failed, errno = %d", errno);
 #endif
     }
 
@@ -232,7 +235,8 @@ namespace kulma
         BOOL err = ::CreateDirectoryA(p_path, NULL);
         KULMA_ASSERT(err != 0, "CreateDirectory failed, GetLastError = %d", GetLastError());
 #elif KULMA_PLATFORM_LINUX
-#   error "not implemented"
+        int32_t err = ::mkdir(p_path, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        KULMA_ASSERT(err == 0, "mkdir failed, errno = %d", errno);
 #endif
     }
 
@@ -242,7 +246,8 @@ namespace kulma
         BOOL err = RemoveDirectoryA(p_path);
         KULMA_ASSERT(err != 0, "RemoveDirectory failed, GetLastError = %d", GetLastError());
 #elif KULMA_PLATFORM_LINUX
-#   error "not implemented"
+        int32_t err = ::rmdir(p_path);
+        KULMA_ASSERT(err == 0, "rmdir failed, errno = %d", errno);
 #endif
     }
 
@@ -252,7 +257,7 @@ namespace kulma
         // 0 = existence only
         return _access(p_path, 0) != -1;
 #elif KULMA_PLATFORM_LINUX
-        return access(p_path, F_OK);
+        return access(p_path, F_OK) != -1;
 #endif
     }
 }
