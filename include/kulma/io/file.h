@@ -26,6 +26,8 @@ namespace kulma
         /// \return True if opened successfully
         virtual bool open(const char* p_path, FileOpenMode::Enum p_mode) = 0;
 
+        virtual int64_t seek(int64_t p_offset, Whence::Enum p_whence) = 0;
+
         /// \brief Closes the file
         virtual void close() = 0;
 

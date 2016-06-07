@@ -52,6 +52,31 @@ namespace kulma
 #endif
         }
 
+        int64_t seek(int64_t p_offset, Whence::Enum p_whence) override
+        {
+#if KULMA_PLATFORM_WINDOWS
+            LARGE_INTEGER li;
+
+            li.QuadPart = p_offset;
+
+            li.LowPart = SetFilePointer(m_file,
+                li.LowPart,
+                &li.HighPart,
+                p_whence);
+
+            KULMA_ASSERT(li.LowPart == INVALID_SET_FILE_POINTER && GetLastError() != NO_ERROR,
+                "SetFilePointer failed, GetLastError = %d",
+                GetLastError()
+            );
+
+            return li.QuadPart;
+            
+#elif KULMA_PLATFORM_LINUX
+            fseeko64(m_file, p_offset, p_whence);
+            return ftello64(m_file);
+#endif
+        }
+
     private:
 #if KULMA_PLATFORM_WINDOWS
         HANDLE m_file;
@@ -79,14 +104,14 @@ namespace kulma
 
     int64_t FileReader::seek(int64_t p_offset, Whence::Enum p_whence)
     {
-        KULMA_UNUSED(p_offset, p_whence);
-        return int64_t();
+        KULMA_ASSERT(m_file != NULL, "File must be != NULL");
+        return m_file->seek(p_offset, p_whence);
     }
 
     bool FileReader::open(const char * p_filePath, Error * p_err)
     {
         KULMA_ASSERT(p_err != NULL, "Reading interface error handler can't be null");
-        KULMA_ASSERT(m_file != NULL, "File can't be null");
+        KULMA_ASSERT(m_file != NULL, "File must be != NULL");
 
         if (!m_file->open(p_filePath, FileOpenMode::Read))
         {
