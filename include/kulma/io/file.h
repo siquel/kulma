@@ -14,14 +14,14 @@ namespace kulma
         };
     };
 
-    struct KULMA_NO_VTABLE File 
+    struct KULMA_NO_VTABLE IFile 
     {
-        virtual ~File() = 0;
+        virtual ~IFile() = 0;
 
         virtual void close() = 0;
 
         /// \brief 
-        virtual int32_t read(void* p_data, int32_t p_size);
+        virtual int32_t read(void* p_data, int32_t p_size) = 0;
     };
 
 }

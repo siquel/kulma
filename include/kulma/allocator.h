@@ -7,14 +7,14 @@
 
 namespace kulma
 {
-    struct KULMA_NO_VTABLE Allocator
+    struct KULMA_NO_VTABLE IAllocator
     {
-        virtual ~Allocator() = 0;
+        virtual ~IAllocator() = 0;
         virtual void* allocate(size_t p_size, size_t p_alignment) = 0;
         virtual void deallocate(size_t p_size) = 0;
     };
 
-    inline Allocator::~Allocator() {}
+    inline IAllocator::~IAllocator() {}
 
     inline ptrdiff_t get_align_adjustment(const void* p_address, size_t p_alignment)
     {
@@ -27,7 +27,7 @@ namespace kulma
         return adjustment;
     }
 
-    struct LinearAllocator : public Allocator
+    struct LinearAllocator : public IAllocator
     {
         LinearAllocator(size_t p_size, void* p_start_pos);
         ~LinearAllocator();

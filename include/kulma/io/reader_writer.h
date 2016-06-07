@@ -16,21 +16,21 @@ namespace kulma
         };
     };
     /// \brief Interface for closing 
-    struct KULMA_NO_VTABLE Closer
+    struct KULMA_NO_VTABLE ICloser
     {
         /// \brief Destructor
-        virtual ~Closer() = 0;
+        virtual ~ICloser() = 0;
         /// \brief Closes the stream
         virtual void close() = 0;
     };
 
-    inline Closer::~Closer() {}
+    inline ICloser::~ICloser() {}
 
     /// \brief Interface for seeking in stream
-    struct KULMA_NO_VTABLE Seeker
+    struct KULMA_NO_VTABLE ISeeker
     {
         /// \brief Destructor
-        virtual ~Seeker() = 0;
+        virtual ~ISeeker() = 0;
         /// \brief Move the file pointer to the given position from given whence
         /// 
         /// \param p_offset The cursor position to set
@@ -40,13 +40,13 @@ namespace kulma
         virtual int64_t seek(int64_t p_offset = 0, Whence::Enum p_whence = Whence::Current) = 0;
     };
 
-    inline Seeker::~Seeker() {}
+    inline ISeeker::~ISeeker() {}
 
     /// \brief Interface for reading data
-    struct KULMA_NO_VTABLE Reader
+    struct KULMA_NO_VTABLE IReader
     {
         /// \brief Destructor
-        virtual ~Reader() = 0;
+        virtual ~IReader() = 0;
         /// \brief Reads data
         /// 
         /// \param p_data Pointer to a pre-allocated data buffer
@@ -57,13 +57,13 @@ namespace kulma
         virtual int32_t read(void* p_data, int32_t p_size, Error* p_err) = 0;
     };
 
-    inline Reader::~Reader() {}
+    inline IReader::~IReader() {}
 
     /// \brief Interface for opening file for reading
-    struct KULMA_NO_VTABLE ReaderOpener
+    struct KULMA_NO_VTABLE IReaderOpener
     {
         /// \brief Destructor
-        virtual ~ReaderOpener() = 0;
+        virtual ~IReaderOpener() = 0;
         /// \brief Opens file for reading
         /// 
         /// \param p_filePath File path
@@ -73,13 +73,13 @@ namespace kulma
         virtual bool open(const char* p_filePath, Error* p_err) = 0;
     };
 
-    inline ReaderOpener::~ReaderOpener() {}
+    inline IReaderOpener::~IReaderOpener() {}
 
     /// \brief Interface for writing
-    struct KULMA_NO_VTABLE Writer
+    struct KULMA_NO_VTABLE IWriter
     {
         /// \brief Destructor
-        virtual ~Writer() = 0;
+        virtual ~IWriter() = 0;
         /// \brief Write data
         ///
         /// \param p_data Data to write
@@ -90,13 +90,13 @@ namespace kulma
         virtual int32_t write(const void* p_data, int32_t p_size, Error* p_err) = 0;
     };
 
-    inline Writer::~Writer() {}
+    inline IWriter::~IWriter() {}
 
     /// \brief Interface for opening file for writing
-    struct KULMA_NO_VTABLE WriterOpener
+    struct KULMA_NO_VTABLE IWriterOpener
     {
         /// \brief Destructor
-        virtual ~WriterOpener() = 0;
+        virtual ~IWriterOpener() = 0;
         /// \brief Opens file for writing
         /// 
         /// \param p_filePath File path
@@ -106,16 +106,16 @@ namespace kulma
         virtual bool open(const char* p_filePath, Error* p_err) = 0;
     };
 
-    inline WriterOpener::~WriterOpener() {}
+    inline IWriterOpener::~IWriterOpener() {}
 
     /// \brief Interface for file reading
-    struct KULMA_NO_VTABLE FileReader : public Reader, public Seeker,  public ReaderOpener, public Closer
+    struct KULMA_NO_VTABLE IFileReader : public IReader, public ISeeker,  public IReaderOpener, public ICloser
     {
 
     };
 
     /// \brief Interface for file writing
-    struct KULMA_NO_VTABLE FileWriter : public Writer, public Seeker, public WriterOpener, public Closer
+    struct KULMA_NO_VTABLE IFileWriter : public IWriter, public ISeeker, public IWriterOpener, public ICloser
     {
 
     };
