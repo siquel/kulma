@@ -29,8 +29,34 @@ namespace kulma
 
     int32_t FileReader::read(void * p_data, int32_t p_size, Error * p_err)
     {
-        KULMA_UNUSED(p_data, p_size, p_err);
-        return int32_t();
+        KULMA_ASSERT(p_err != NULL, "Reading interface error handler can't be null");
+
+#if KULMA_PLATFORM_WINDOWS
+        DWORD read = 0;
+        if (::ReadFile(m_file, p_data, p_size, &read, NULL) == FALSE)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_READ,
+                "FileReader: read failed");
+        }
+        else if ((int32_t)read != p_size)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_READ,
+                "FileReader: read failed");
+        }
+        return (int32_t)read;
+#elif KULMA_PLATFORM_LINUX
+        int32_t size = (int32_t)fread(p_data, 1, p_size, m_file);
+        if (size != p_size)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_READ,
+                "FileReader: read failed");
+            return size >= 0 ? size : 0;
+        }
+        return size;
+#endif
     }
 
     int64_t FileReader::seek(int64_t p_offset, Whence::Enum p_whence)
