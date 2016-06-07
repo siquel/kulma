@@ -88,7 +88,7 @@ namespace kulma
         KULMA_ASSERT(p_err != NULL, "Reading interface error handler can't be null");
         KULMA_ASSERT(m_file != NULL, "File can't be null");
 
-        if (m_file->open(p_filePath, FileOpenMode::Read))
+        if (!m_file->open(p_filePath, FileOpenMode::Read))
         {
             KULMA_ERROR_SET(p_err, KULMA_ERROR_IO_OPEN, "FileReader: Failed to open file");
             return false;
