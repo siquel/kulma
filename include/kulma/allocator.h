@@ -37,8 +37,7 @@ namespace kulma
         void clear();
 
     private:
-        LinearAllocator(const LinearAllocator&);
-        LinearAllocator& operator=(const LinearAllocator&);
+        KULMA_NO(LinearAllocator, COPY, MOVE);
 
         void* m_current_pos;
         void* m_start_pos;

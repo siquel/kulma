@@ -19,10 +19,7 @@ namespace kulma
 {
     struct Semaphore
     {
-        Semaphore(const Semaphore&) = delete;
-        Semaphore(Semaphore&&) = delete;
-        Semaphore& operator=(const Semaphore&) = delete;
-        Semaphore& operator=(Semaphore&&) = delete;
+        KULMA_NO(Semaphore, COPY, MOVE);
 
         Semaphore() 
 #if KULMA_PLATFORM_WINDOWS

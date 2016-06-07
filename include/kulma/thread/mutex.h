@@ -14,10 +14,7 @@ namespace kulma
 {
     struct Mutex
     {
-        Mutex(const Mutex&) = delete;
-        Mutex& operator=(const Mutex&) = delete;
-        Mutex(const Mutex&&) = delete;
-        Mutex& operator=(const Mutex&&) = delete;
+        KULMA_NO(Mutex, COPY, MOVE);
 
         Mutex()
         {
@@ -69,10 +66,7 @@ namespace kulma
 
     struct ScopedMutex
     {
-        ScopedMutex(const ScopedMutex&) = delete;
-        ScopedMutex& operator=(const ScopedMutex&) = delete;
-        ScopedMutex(ScopedMutex&&) = delete;
-        ScopedMutex& operator=(ScopedMutex&&) = delete;
+        KULMA_NO(ScopedMutex, COPY, MOVE);
 
         ScopedMutex(Mutex& p_mutex)
             : m_mutex(p_mutex)

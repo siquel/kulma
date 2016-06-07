@@ -24,6 +24,5 @@ namespace kulma
         virtual int32_t read(void* p_data, int32_t p_size);
     };
 
-
 }
 
