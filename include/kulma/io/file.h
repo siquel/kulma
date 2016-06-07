@@ -63,7 +63,10 @@ namespace kulma
         /// @copydoc IClose::close()
         virtual void close() override;
     private:
-        IFile* m_file;
+#if KULMA_PLATFORM_WINDOWS
+        void* m_file; // HANDLE
+#elif KULMA_PLATFORM_LINUX
+#endif
     };
 }
 
