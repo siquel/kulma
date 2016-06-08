@@ -89,7 +89,7 @@ namespace kulma
         KULMA_ASSERT(p_err != NULL, "Reading interface error handler can't be null");
 
 #if KULMA_PLATFORM_WINDOWS
-        m_file = ::CreateFile(
+        m_file = ::CreateFileA(
             p_filePath,
             GENERIC_READ,
             0,
@@ -167,12 +167,56 @@ namespace kulma
 
     bool FileWriter::open(const char* p_filePath, bool p_append, Error* p_err)
     {
-        KULMA_UNUSED(p_filePath, p_append, p_err);
-        return false;
+#if KULMA_PLATFORM_WINDOWS
+        m_file = ::CreateFileA(p_filePath,
+            GENERIC_WRITE,
+            0,
+            NULL,
+            p_append ? OPEN_ALWAYS : CREATE_ALWAYS, // truncate if necessary
+            FILE_ATTRIBUTE_NORMAL,
+            NULL
+            );
+
+        if (m_file == INVALID_HANDLE_VALUE)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_OPEN,
+                "FileWriter: failed to open file");
+            return false;
+        }
+
+        if (p_append) 
+        {
+            // move the cursor to the eof
+            DWORD err = ::SetFilePointer(m_file, 0, NULL, FILE_END);
+            if (err == INVALID_SET_FILE_POINTER)
+            {
+                KULMA_ERROR_SET(p_err,
+                    KULMA_ERROR_IO_OPEN,
+                    "FileWriter: faled to open file, SetFilePointer failed");
+                return false;
+            }
+        }
+#elif KULMA_PLATFORM_LINUX
+#endif
+
+        return true;
     }
 
     void FileWriter::close()
     {
-
+#if KULMA_PLATFORM_WINDOWS
+        if (m_file != INVALID_HANDLE_VALUE)
+        {
+            ::CloseHandle(m_file);
+            m_file = INVALID_HANDLE_VALUE;
+        }
+#elif KULMA_PLATFORM_LINUX
+        if (m_file != NULL)
+        {
+            ::fclose(m_file);
+            m_file = NULL;
+        }
+#endif
     }
 }
