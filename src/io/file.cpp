@@ -155,14 +155,60 @@ namespace kulma
 
     int32_t FileWriter::write(const void* p_data, int32_t p_size, Error* p_err)
     {
-        KULMA_UNUSED(p_data, p_size, p_err);
-        return 0;
+        KULMA_ASSERT(p_err != NULL, "Writing interface error handler can't be null");
+
+#if KULMA_PLATFORM_WINDOWS
+        DWORD bytesWritten;
+        if (::WriteFile(m_file, p_data, p_size, &bytesWritten, NULL) == FALSE)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_WRITE,
+                "FileWriter: write failed");
+        }
+        else if ((int32_t)bytesWritten != p_size)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_WRITE,
+                "FileWriter: write failed");
+        }
+
+        return (int32_t)bytesWritten;
+#elif KULMA_PLATFORM_LINUX
+        int32_t size = (int32_t)fwrite(p_data, 1, p_size, m_file);
+        if (size != p_size)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_WRITE,
+                "FileWriter: write failed");
+            return size >= 0 ? size : 0;
+        }
+
+        return size;
+#endif
     }
 
     int64_t FileWriter::seek(int64_t p_offset, Whence::Enum p_whence)
     {
-        KULMA_UNUSED(p_offset, p_whence);
-        return 0;
+#if KULMA_PLATFORM_WINDOWS
+        LARGE_INTEGER li;
+
+        li.QuadPart = p_offset;
+
+        li.LowPart = ::SetFilePointer(m_file,
+            li.LowPart,
+            &li.HighPart,
+            p_whence);
+
+        KULMA_ASSERT(li.LowPart == INVALID_SET_FILE_POINTER && GetLastError() != NO_ERROR,
+            "SetFilePointer failed, GetLastError = %d",
+            GetLastError()
+            );
+
+        return li.QuadPart;
+#elif KULMA_PLATFORM_LINUX
+        fseeko64(m_file, _offset, _whence);
+        return ftello64(m_file);
+#endif
     }
 
     bool FileWriter::open(const char* p_filePath, bool p_append, Error* p_err)
@@ -198,6 +244,14 @@ namespace kulma
             }
         }
 #elif KULMA_PLATFORM_LINUX
+        m_file = fopen(p_filePath, p_append ? "ab" : "wb");
+        if (m_file == NULL)
+        {
+            KULMA_ERROR_SET(p_err,
+                KULMA_ERROR_IO_OPEN,
+                "FileWriter: failed to open file");
+            return false;
+        }
 #endif
 
         return true;
