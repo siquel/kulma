@@ -137,4 +137,42 @@ namespace kulma
         }
 #endif
     }
+
+    FileWriter::FileWriter()
+#if KULMA_PLATFORM_WINDOWS
+        : m_file(INVALID_HANDLE_VALUE)
+#elif KULMA_PLATFORM_LINUX
+        : m_file(NULL)
+#endif
+    {
+
+    }
+
+    FileWriter::~FileWriter()
+    {
+
+    }
+
+    int32_t FileWriter::write(const void* p_data, int32_t p_size, Error* p_err)
+    {
+        KULMA_UNUSED(p_data, p_size, p_err);
+        return 0;
+    }
+
+    int64_t FileWriter::seek(int64_t p_offset, Whence::Enum p_whence)
+    {
+        KULMA_UNUSED(p_offset, p_whence);
+        return 0;
+    }
+
+    bool FileWriter::open(const char* p_filePath, bool p_append, Error* p_err)
+    {
+        KULMA_UNUSED(p_filePath, p_append, p_err);
+        return false;
+    }
+
+    void FileWriter::close()
+    {
+
+    }
 }

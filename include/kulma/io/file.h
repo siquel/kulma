@@ -11,6 +11,7 @@ namespace kulma
     class FileReader : public IFileReader
     {
     public:
+        /// \brief Constructor
         FileReader();
         /// \brief Destructor
         ~FileReader() override;
@@ -21,7 +22,7 @@ namespace kulma
         /// @copydoc ISeeker::seek()
         virtual int64_t seek(int64_t p_offset = 0, Whence::Enum p_whence = Whence::Current) override;
 
-        /// @copydoc IReaderOpen::open()
+        /// @copydoc IReaderOpener::open()
         virtual bool open(const char* p_filePath, Error* p_err) override;
 
         /// @copydoc IClose::close()
@@ -30,6 +31,35 @@ namespace kulma
 #if KULMA_PLATFORM_WINDOWS
         void* m_file; // HANDLE
 #elif KULMA_PLATFORM_LINUX
+        FILE* m_file;
+#endif
+    };
+
+    class FileWriter : public IFileWriter
+    {
+    public:
+        /// \brief Constructor
+        FileWriter();
+
+        /// \brief Destructor
+        ~FileWriter() override;
+
+        /// @copyedoc IWriter::write()
+        virtual int32_t write(const void* p_data, int32_t p_size, Error* p_err) override;
+
+        /// @copydoc ISeeker::seek()
+        virtual int64_t seek(int64_t p_offset = 0, Whence::Enum p_whence = Whence::Current) override;
+
+        /// @copydoc IWriterOpener::open()
+        virtual bool open(const char* p_filePath, bool p_append, Error* p_err) override;
+
+        /// @copydoc IClose::close()
+        virtual void close() override;
+    private:
+#if KULMA_PLATFORM_WINDOWS
+        void* m_file; // HANDLE
+#elif KULMA_PLATFORM_LINUX
+        FILE* m_file;
 #endif
     };
 }

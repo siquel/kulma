@@ -101,9 +101,10 @@ namespace kulma
         /// 
         /// \param p_filePath File path
         /// \param p_err Error handler
+        /// \param p_append Append to file or should the file be truncated
         /// 
         /// \return True if opened successfully
-        virtual bool open(const char* p_filePath, Error* p_err) = 0;
+        virtual bool open(const char* p_filePath, bool p_append, Error* p_err) = 0;
     };
 
     inline IWriterOpener::~IWriterOpener() {}
