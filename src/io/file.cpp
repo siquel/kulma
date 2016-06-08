@@ -94,7 +94,7 @@ namespace kulma
             GENERIC_READ,
             0,
             NULL,
-            OPEN_ALWAYS,
+            OPEN_EXISTING,
             FILE_ATTRIBUTE_NORMAL,
             NULL
             );
