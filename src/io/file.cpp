@@ -206,7 +206,7 @@ namespace kulma
 
         return li.QuadPart;
 #elif KULMA_PLATFORM_LINUX
-        fseeko64(m_file, _offset, _whence);
+        fseeko64(m_file, p_offset, p_whence);
         return ftello64(m_file);
 #endif
     }

@@ -58,10 +58,10 @@ namespace kulma {
 #   define KULMA_NO_VTABLE
 #endif
 
-#define KULMA_NO_COPY(_class) _class##(const _class&) = delete;\
+#define KULMA_NO_COPY(_class) _class(const _class&) = delete;\
                               void operator=(const _class&) = delete
 
-#define KULMA_NO_MOVE(_class) _class##(const _class&&) = delete;\
+#define KULMA_NO_MOVE(_class) _class(const _class&&) = delete;\
                               void operator=(const _class&&) = delete
 
 #define KULMA_NO_1(_class, _a1)         KULMA_CONCAT(KULMA_NO_, _a1)(_class)

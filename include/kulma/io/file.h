@@ -2,6 +2,13 @@
 #include "../macros.h"
 #include "reader_writer.h"
 #include <stdint.h>
+
+#include "kulma/platform.h"
+#if KULMA_PLATFORM_WINDOWS
+#elif KULMA_PLATFORM_LINUX
+#   include <stdio.h> // FILE
+#endif
+
 namespace kulma
 {
     KULMA_ERROR_RESULT(KULMA_ERROR_IO_OPEN, KULMA_MAKEFOURCC('I', 'O', 0, 1));
