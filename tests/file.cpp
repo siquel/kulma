@@ -2,6 +2,7 @@
 #include <kulma/io/file.h>
 #include <kulma/macros.h>
 #include <kulma/os.h>
+#include <string.h>
 
 const static char* s_filePath = "unit_test_file_cpp_test_file";
 
