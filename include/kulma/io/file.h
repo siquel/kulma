@@ -30,6 +30,8 @@ namespace kulma
         virtual int64_t seek(int64_t p_offset = 0, Whence::Enum p_whence = Whence::Current) override;
 
         /// @copydoc IReaderOpener::open()
+        /// 
+        /// \note The file must exist
         virtual bool open(const char* p_filePath, Error* p_err) override;
 
         /// @copydoc IClose::close()
