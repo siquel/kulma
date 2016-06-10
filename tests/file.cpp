@@ -10,11 +10,13 @@ const static char s_append[] = " hello world";
 const static char s_appended[] = "this is test string hello world";
 TEST_CASE("File", "[file]")
 {
-    
 
     SECTION("Opening file for write")
     {
-        kulma::touch(s_filePath);
+        if (!kulma::exists(s_filePath))
+        {
+            kulma::touch(s_filePath);
+        }
 
         kulma::Error err;
 
@@ -51,8 +53,33 @@ TEST_CASE("File", "[file]")
         
         reader.close();
 
-        kulma::remove_file(s_filePath);
     }
 
+
+    SECTION("Seeked read")
+    {
+        kulma::Error err;
+
+        kulma::FileReader reader;
+        reader.open(s_filePath, &err);
+
+        // to hello world
+        REQUIRE(reader.seek(21) == 21);
+        char hello[12] = { 0 };
+        REQUIRE(reader.read(hello, sizeof(hello), &err) == sizeof(hello));
+        REQUIRE(strcmp("hello world", hello) == 0);
+
+        // its at the end now, seek to world and read it
+        memset(hello, 0, sizeof(hello));
+        // 21 = position at hello world, hello = 6 chars, should be at pos 27
+        REQUIRE(reader.seek(-6, kulma::Whence::End) == 21 + 6);
+        REQUIRE(reader.read(hello, 6, &err) == 6);
+        
+        REQUIRE(reader.seek(5, kulma::Whence::Begin) == 5);
+
+        reader.close();
+
+        kulma::remove_file(s_filePath);
+    }
     
 }

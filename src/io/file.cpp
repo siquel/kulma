@@ -71,10 +71,12 @@ namespace kulma
             &li.HighPart,
             p_whence);
 
-        KULMA_ASSERT(li.LowPart == INVALID_SET_FILE_POINTER && GetLastError() != NO_ERROR,
-            "SetFilePointer failed, GetLastError = %d",
-            GetLastError()
-            );
+        DWORD err = GetLastError();
+        if (li.LowPart == INVALID_SET_FILE_POINTER && err != NO_ERROR)
+        {
+            li.QuadPart = -1;
+        }
+            
 
         return li.QuadPart;
 
