@@ -109,15 +109,77 @@ namespace kulma
 
     inline IWriterOpener::~IWriterOpener() {}
 
+    struct KULMA_NO_VTABLE IReaderSeeker : public IReader, public ISeeker
+    {
+
+    };
+
+    struct KULMA_NO_VTABLE IWriterSeeker : public IWriter, public ISeeker
+    {
+
+    };
+
     /// \brief Interface for file reading
-    struct KULMA_NO_VTABLE IFileReader : public IReader, public ISeeker,  public IReaderOpener, public ICloser
+    struct KULMA_NO_VTABLE IFileReader : public IReaderSeeker,  public IReaderOpener, public ICloser
     {
 
     };
 
     /// \brief Interface for file writing
-    struct KULMA_NO_VTABLE IFileWriter : public IWriter, public ISeeker, public IWriterOpener, public ICloser
+    struct KULMA_NO_VTABLE IFileWriter : public IWriterSeeker, public IWriterOpener, public ICloser
     {
 
     };
+
+    /// \brief Gets the size of stream
+    /// 
+    /// \param p_reader The reader
+    ///
+    /// \return The size of stream
+    inline int64_t get_file_size(IReaderSeeker* p_reader)
+    {
+        int64_t ref = p_reader->seek();
+        int64_t size = p_reader->seek(0, Whence::End);
+        // seek back to actual pos
+        p_reader->seek(ref, Whence::Begin);
+        return size;
+    }
+
+    /// \brief Peek the data, reads p_size amount of bytes and then seeks back to current position
+    ///
+    /// \param p_reader The reader
+    /// \param p_data Pointer to a pre-allocated data buffer
+    /// \param p_size Size of data to read in bytes
+    /// \param p_err Error handler, temporary is used if NULL
+    ///
+    /// \return Amount of data read in bytes
+    inline int32_t peek(IReaderSeeker* p_reader, void* p_data, int32_t p_size, Error* p_err = NULL)
+    {
+        Error tmp;
+        p_err = p_err == NULL ? &tmp : p_err;
+        kulma::ScopedError error_scope(p_err);
+
+        // reference position
+        int64_t ref = p_reader->seek();
+        int32_t read_bytes = p_reader->read(p_data, p_size, p_err);
+        p_reader->seek(ref, Whence::Begin);
+
+        return read_bytes;
+    }
+
+    /// \brief Peek the data, reads sizeof(T) amount of bytes and then seeks back to current position
+    ///
+    /// \param p_reader The reader
+    /// \param p_data Reference to POD
+    /// \param p_err Error handler, temporary is used if NULL
+    ///
+    /// \return Amount of data read in bytes
+    template <typename T>
+    inline int32_t peek(IReaderSeeker* p_reader, T& p_data, Error* p_err = NULL)
+    {
+        Error tmp;
+        p_err = p_err == NULL ? &tmp : p_err;
+        kulma::ScopedError error_scope(p_err);
+        return peek(p_reader, &p_data, sizeof(T), p_err);
+    }
 }
