@@ -8,6 +8,7 @@ const static char* s_filePath = "unit_test_file_cpp_test_file";
 const static char s_data[] = "this is test string";
 const static char s_append[] = " hello world";
 const static char s_appended[] = "this is test string hello world";
+
 TEST_CASE("File", "[file]")
 {
 
@@ -76,6 +77,34 @@ TEST_CASE("File", "[file]")
         REQUIRE(reader.read(hello, 6, &err) == 6);
         
         REQUIRE(reader.seek(5, kulma::Whence::Begin) == 5);
+
+        reader.close();
+    }
+
+    SECTION("Peek")
+    {
+        kulma::Error err;
+
+        kulma::FileWriter writer;
+        writer.open(s_filePath, false, &err);
+
+        struct POD
+        {
+            int32_t a;
+            uint32_t c;
+        };
+        POD data = { 13, 37 };
+        writer.write(&data, sizeof(POD), &err);
+        writer.close();
+
+        memset(&data, 0, sizeof(POD));
+
+        kulma::FileReader reader;
+        reader.open(s_filePath, &err);
+        kulma::peek(&reader, data, &err);
+        REQUIRE(reader.seek() == 0);
+        REQUIRE(data.a == 13);
+        REQUIRE(data.c == 37);
 
         reader.close();
 
