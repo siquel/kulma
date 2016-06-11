@@ -37,9 +37,9 @@ namespace kulma
         return (void*)aligned_address;
     }
 
-    void LinearAllocator::deallocate(size_t p_size)
+    void LinearAllocator::deallocate(void*)
     {
-        KULMA_UNUSED(p_size);
+
     }
 
     void LinearAllocator::clear()

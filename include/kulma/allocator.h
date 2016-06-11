@@ -7,11 +7,21 @@
 
 namespace kulma
 {
+    /// \brief Allocator interface
     struct KULMA_NO_VTABLE IAllocator
     {
+        /// \brief Destructor
         virtual ~IAllocator() = 0;
+        /// \brief Allocates memory
+        /// 
+        /// \param p_size How much memory needed
+        /// \param p_alignment How should it be aligned
+        /// 
+        /// \return Pointer to allocated memory or NULL if the allocation failed
         virtual void* allocate(size_t p_size, size_t p_alignment) = 0;
-        virtual void deallocate(size_t p_size) = 0;
+
+        /// \brief Frees an allocation previously made with allocate().
+        virtual void deallocate(void* p_ptr) = 0;
     };
 
     inline IAllocator::~IAllocator() {}
@@ -29,11 +39,21 @@ namespace kulma
 
     struct LinearAllocator : public IAllocator
     {
+        /// \brief Create linear allocator with specified size and pre-allocated memory
+        ///
+        /// \param p_size Size in bytes
+        /// \param p_start_pos Pointer to pre-allocated buffer
+        /// \note You must free the buffer yourself
         LinearAllocator(size_t p_size, void* p_start_pos);
+
+        /// \brief Default destructor
         ~LinearAllocator();
 
-        void* allocate(size_t p_size, size_t p_alignment = 4);
-        void deallocate(size_t p_size);
+        /// \copydoc IAllocator::allocate()
+        void* allocate(size_t p_size, size_t p_alignment = 4) override;
+
+        /// \brief Deallocate is NOP for linear allocator
+        void deallocate(void* p_ptr) override;
         void clear();
 
     private:
