@@ -24,10 +24,7 @@ namespace kulma
     class Error
     {
     public:
-        Error(const Error&) = delete;
-        Error& operator=(const Error&) = delete;
-        Error(const Error&&) = delete;
-        Error& operator=(const Error&&) = delete;
+        KULMA_NO(Error, COPY, MOVE);
 
         Error()
             : m_code(0)

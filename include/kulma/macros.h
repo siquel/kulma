@@ -57,3 +57,18 @@ namespace kulma {
 #else
 #   define KULMA_NO_VTABLE
 #endif
+
+#define KULMA_NO_COPY(_class) _class(const _class&) = delete;\
+                              void operator=(const _class&) = delete
+
+#define KULMA_NO_MOVE(_class) _class(const _class&&) = delete;\
+                              void operator=(const _class&&) = delete
+
+#define KULMA_NO_1(_class, _a1)         KULMA_CONCAT(KULMA_NO_, _a1)(_class)
+#define KULMA_NO_2(_class, _a1, _a2)    KULMA_NO_1(_class, _a1); KULMA_NO_1(_class, _a2)
+
+#if KULMA_COMPILER_MSVC
+#	define KULMA_NO(_class, ...) KULMA_MACRO_DISPATCHER(KULMA_NO_, __VA_ARGS__) KULMA_VA_ARGS_PASS(_class, __VA_ARGS__)
+#else
+#	define KULMA_NO(_class, ...) KULMA_MACRO_DISPATCHER(KULMA_NO_, __VA_ARGS__)(_class, __VA_ARGS__)
+#endif

@@ -18,11 +18,9 @@ namespace kulma
 {
     struct Thread
     {
+        KULMA_NO(Thread, COPY, MOVE);
+
         typedef int8_t(*ThreadFunc)(void*);
-        Thread(const Thread&) = delete;
-        Thread(Thread&&) = delete;
-        Thread& operator=(const Thread&) = delete;
-        Thread& operator=(const Thread&&) = delete;
 
         Thread()
             : m_func(nullptr), 

@@ -7,37 +7,36 @@ static const char* s_filePath = "kulma_test_file";
 
 TEST_CASE("OS", "[os]") {
     SECTION("directory") {
-        if (!kulma::exists(s_directoryPath))
+        if (kulma::exists(s_directoryPath))
         {
-            kulma::mkdir(s_directoryPath);
+            kulma::rmdir(s_directoryPath);
         }
-        REQUIRE(kulma::exists(s_directoryPath) == true);
-        kulma::rmdir(s_directoryPath);
         REQUIRE(kulma::exists(s_directoryPath) == false);
         kulma::mkdir(s_directoryPath);
         REQUIRE(kulma::exists(s_directoryPath) == true);
+        kulma::rmdir(s_directoryPath);
+        REQUIRE(kulma::exists(s_directoryPath) == false);
     }
 
     SECTION("file") {
         // touch doesn't fail if the file exists, oh yes on linux it will..
-        if (!kulma::exists(s_filePath)) 
+        if (kulma::exists(s_filePath)) 
         {
-            kulma::touch(s_filePath);
+            kulma::remove_file(s_filePath);
         }
-        REQUIRE(kulma::exists(s_filePath) == true);
-        // remove it 
-        kulma::remove_file(s_filePath);
+
         REQUIRE(kulma::exists(s_filePath) == false);
-        // create it again
+
         kulma::touch(s_filePath);
         REQUIRE(kulma::exists(s_filePath) == true);
-    }
 
-    SECTION("stat") {
         kulma::FileInfo fi;
         kulma::stat(s_filePath, fi);
         REQUIRE(fi.m_type == kulma::FileInfo::File);
         REQUIRE(fi.m_size == 0);
+
+        kulma::remove_file(s_filePath);
+        REQUIRE(kulma::exists(s_filePath) == false);
     }
 
     SECTION("cwd") {
