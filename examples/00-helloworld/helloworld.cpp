@@ -36,19 +36,16 @@ int8_t thread_proc(void* userdata)
 
 int main(int argc, char* argv[]) {
     using namespace kulma;
-
+    memory_globals::init();
     KULMA_UNUSED(argc, argv);
     printf("Hello world! Running on %s, target arch %s, compiled with %s\n", 
         KULMA_PLATFORM_NAME,
         KULMA_ARCH_NAME,
         KULMA_COMPILER_NAME
     );
-#ifdef KULMA_DEBUG
-    int32_t debug = 1;
-#else
-    int32_t debug = 0;
-#endif
-    printf("Debug = %d\n", debug);
+
+    TempAllocator4096 ta;
+
     const int32_t ThreadCount = 5;
     Thread entries[ThreadCount];
     ThreadParams params[ThreadCount];
@@ -66,5 +63,6 @@ int main(int argc, char* argv[]) {
 
     printf("Main thread exits\n");
 
+    memory_globals::shutdown();
     return 0;
 }
